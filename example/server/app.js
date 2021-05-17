@@ -1,38 +1,39 @@
 const Koa = require('koa2');
-const fs = require('fs');
 const app = new Koa();
+const cor = require('./utils/cor');
+const { logger, accessLogger } = require('./utils/log');
+const Router = require('koa-router');
 const bodyParser = require('koa-bodyparser');
 
-app.use(async (ctx, next) => {
-    ctx.set('Access-Control-Allow-Origin', '*');
-    ctx.set(
-        'Access-Control-Allow-Headers',
-        'Content-Type, Content-Length, Authorization, Accept, X-Requested-With , yourHeaderFeild'
-    );
-    ctx.set('Access-Control-Allow-Methods', 'PUT, POST, GET, DELETE, OPTIONS');
-    if (ctx.method == 'OPTIONS') ctx.body = 200;
-    else await next();
-});
+const post = 3000;
 
+// 配置跨域
+app.use(cor);
+// 配置参数接收
 app.use(bodyParser());
+// 配置日志
+app.use(accessLogger());
 
-const Router = require('koa-router');
-
-let home = new Router();
+let index = new Router();
 
 // 子路由1
-home.post('/', async ctx => {
-    console.log(ctx.request.body);
-    ctx.body = 'ok';
+index.post('/', async ctx => {
+    ctx.body = 'Server Status Ready';
+});
+
+// 子路由1
+index.post('/mointor', async ctx => {
+    logger.info(ctx.request.body);
+    ctx.body = 'Already recorded parameters';
 });
 
 // 装载所有子路由
 let router = new Router();
-router.use('/', home.routes(), home.allowedMethods());
+router.use('/', index.routes(), index.allowedMethods());
 
 // 加载路由中间件
 app.use(router.routes()).use(router.allowedMethods());
 
-app.listen(3000, () => {
-    console.log('server is starting at port 3000');
+app.listen(post, () => {
+    console.log(`server is starting at port ${post}`);
 });
