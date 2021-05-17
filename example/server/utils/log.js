@@ -6,12 +6,12 @@ log4js.configure({
         access: {
             type: 'dateFile',
             pattern: '-yyyy-MM-dd.log', //生成文件的规则
-            filename: path.join('./logs/', 'access.log') //生成文件名
+            filename: path.join('./logs/access/', 'access.log') //生成文件名
         },
         application: {
             type: 'dateFile',
             pattern: '-yyyy-MM-dd.log',
-            filename: path.join('./logs/', 'application.log')
+            filename: path.join('./logs/params/', 'params.log')
         },
         out: {
             type: 'console'
