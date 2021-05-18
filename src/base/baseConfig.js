@@ -23,11 +23,6 @@ export class ErrorCategoryEnum {
     static get PROMISE_ERROR(){return "promise_error";}
 
     /**
-     * ajax异步请求错误
-     */
-    static get AJAX_ERROR(){return "ajax_error";}
-
-    /**
      * 控制台错误console.info
      */
     static get CONSOLE_INFO(){return "console_info";}
