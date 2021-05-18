@@ -5,7 +5,6 @@
     <el-button @click="promiseErrorOccurhandler">promise未捕获异常信息</el-button>
     <el-button @click="consoleErrorOccurhandler">console.error错误信息捕获</el-button>
     <el-button @click="jsErrorOccurhandler">JavaScript错误信息监控</el-button>
-    <el-button @click="consoleErrorOccurhandler">console.error错误信息捕获</el-button>
     <el-button @click="resourceErrorOccurhandler">资源错误信息捕获</el-button>
   </div>
   <el-button @click="reset" style="display:block;margin:40px auto 0px">重置图片</el-button>
@@ -16,7 +15,7 @@
 
 <script>
 export default {
-  name: 'HelloWorld',
+  name: 'Type',
   data(){
     return {
       tempSrc:'https://i.ytimg.com/vi/88Z0MKYH_Ns/maxresdefault.jpg',
