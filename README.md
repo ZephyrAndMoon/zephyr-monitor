@@ -10,7 +10,6 @@ front-error-monitor 是一款基于 monitorjs_horse 前端监控工具，包含�
 * js错误信息监控；
 * 支持vue错误信息监控（需要将vue传入，并设置vueError:true）；
 * 支持promise中未捕获异常信息的抓取；
-* 支持ajax库（xhr）异常信息捕获；
 * 支持console.error错误信息捕获;
 * 支持资源错误信息捕获。
 
@@ -113,8 +112,6 @@ new ErrorMonitor().init({
 
 - `resourceError` ：配置是否需要监控资源错误 （默认true）
 
-- `ajaxError` ：配置是否需要监控ajax错误 （默认true）
-
 - `consoleError `：配置是否需要监控console.error错误 （默认false）
 
 - `vueError` ：配置是否需要记录vue错误信息 （默认false）
@@ -137,7 +134,7 @@ new ErrorMonitor().init({
 
 - `category `："js_error" 错误类型（枚举）
 
-  `js_error | resource_error | vue_error| promise_error | ajax_error | console_info | console_warn | console_error | unknow_error`
+  `js_error | resource_error | vue_error| promise_error | console_info | console_warn | console_error | unknow_error`
 
 - `logType`："Info" 日志类型（枚举）
 
@@ -219,10 +216,3 @@ new ErrorMonitor().monitorPerformance({
     ],
 }
 ```
-
-
-
-### 8.使用时机
-
-1. 普通项目，页面初始化时候，就可以完成初始化监控工具（最好在业务代码的前面，避免监控有漏）；
-2. vue项目，需要在new Vue之前初始化监控工具，避免监控有漏；
