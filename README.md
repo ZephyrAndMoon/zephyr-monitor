@@ -1,4 +1,4 @@
-### 1.简介
+### 简介
 front-error-monitor 是一款基于 monitorjs_horse 前端监控工具，包含下面几个方面信息监控：
 * 前端异常监控
 * 页面性能监控
@@ -6,7 +6,7 @@ front-error-monitor 是一款基于 monitorjs_horse 前端监控工具，包含�
 
 
 
-### 2.异常捕获详情
+### 异常捕获详情
 * js错误信息监控；
 * 支持vue错误信息监控（需要将vue传入，并设置vueError:true）；
 * 支持promise中未捕获异常信息的抓取；
@@ -15,7 +15,7 @@ front-error-monitor 是一款基于 monitorjs_horse 前端监控工具，包含�
 
 
 
-### 3.页面性能监控
+### 页面性能监控
 * 重定向的时间；
 
 * DNS 查询时间；
@@ -38,7 +38,7 @@ front-error-monitor 是一款基于 monitorjs_horse 前端监控工具，包含�
 
   
 
-### 4.设备信息采集
+### 设备信息采集
 * 设备类型；
 * 操作系统；
 * 操作系统版本；
@@ -51,7 +51,7 @@ front-error-monitor 是一款基于 monitorjs_horse 前端监控工具，包含�
 * userAgent；
 * ...
 
-### 5.引入方式
+### 引入方式
 1. 支持es6方式引入
 
    ```javascript
@@ -76,9 +76,20 @@ front-error-monitor 是一款基于 monitorjs_horse 前端监控工具，包含�
    <script src="../node_modules/front-error-monitor/dist/vueError.min.js"></script>
    ```
 
+
+### 项目命令
+
+#### 打包命令
+`npm run build`
+
+#### 动测试demo命令
+`npm run test`
+> 错误日志可以在 `/example/server/logs` 下看到
+
+
    
 
-### 6.异常监控
+### 异常监控
 
 
 
@@ -150,7 +161,7 @@ new ErrorMonitor().init({
 
 
 
-### 7.报页面性能Usage
+### 报页面性能Usage
 
 
 
