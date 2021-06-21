@@ -1,5 +1,4 @@
 import { ConsoleError, JsError, PromiseError, ResourceError, VueError } from './error';
-import { AjaxLibEnum } from './base/baseConfig.js';
 import MonitorPerformance from './performance';
 import MonitorNetworkSpeed from './performance/networkSpeed';
 import './utils/extends';
