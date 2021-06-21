@@ -19,14 +19,16 @@ class ErrorMonitor {
      */
     init(options) {
         options = options || {};
-        this.jsError = options.jsError || this.jsError;
-        this.promiseError = options.promiseError || this.promiseError;
-        this.resourceError = options.resourceError || this.resourceError;
-        this.consoleError = options.consoleError || this.consoleError;
-        this.vueError = options.vueError || this.vueError;
+        this.jsError = !(options.jsError === false);
+        this.promiseError = !(options.promiseError === false);
+        this.resourceError = !(options.resourceError === false);
+        this.consoleError = options.consoleError;
+        this.vueError = options.vueError;
+
         let reportUrl = options.url; //上报错误地址
         let extendsInfo = options.extendsInfo || {}; //扩展信息（一般用于系统个性化分析）
         let param = { reportUrl, extendsInfo };
+
         if (this.jsError) {
             new JsError(param).handleError();
         }
