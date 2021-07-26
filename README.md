@@ -203,7 +203,7 @@ new ErrorMonitor().monitorPerformance({
     pageId: "", //页面唯一标示
     performance: {
         analysisTime: 1825, //解析dom树耗时
-        appcacheTime: 0,  //DNS 缓存时间
+        dnsCacheTime: 0,  //DNS 缓存时间
         blankTime: 8, //白屏时间
         dnsTime: 0, //DNS 查询时间
         domReadyTime: 53, //domReadyTime
