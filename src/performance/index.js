@@ -58,9 +58,9 @@ class MonitorPerformance extends BaseMonitor {
 				markUser: this.markUser(),
 				markUv: this.markUv(),
 				pageId: this.pageId,
-				deviceInfo: this.getDeviceInfo(),
+				deviceInfo: this._getDeviceInfo(),
 			}
-			let extendsInfo = this.getExtendsInfo()
+			let extendsInfo = this._getExtendsInfo()
 			let data = {
 				...extendsInfo,
 				category: this.category,

@@ -2,27 +2,38 @@
  * 数据持久化
  */
 class API {
+	/**
+	 * @constructor
+	 *
+	 * @param {string} string 上报的 url
+	 */
 	constructor(url) {
 		this.url = url
 	}
 
 	/**
-	 * 上报信息 （默认方式）
-	 * isFetch ：是否优先通过fetch上报
+	 * 上报信息（默认方式）
+	 *
+	 * @public
+	 * @param {object} data 上报的数据
+	 * @param {boolean} isFetch 是否优先通过fetch上报
 	 */
 	report(data, isFetch) {
-		if (!this.checkUrl(this.url)) {
+		if (!this._checkUrl(this.url)) {
 			console.log('上报信息url地址格式不正确,url=', this.url)
 			return
 		}
 		console.log('上报地址：' + this.url)
-		this.sendInfo(data, isFetch)
+		this._sendInfo(data, isFetch)
 	}
 
 	/**
-	 * 发送消息
+	 * 发送信息
+	 * @private
+	 * @param {object} data 上报的数据
+	 * @param {boolean} isFetch 是否优先通过fetch上报
 	 */
-	sendInfo(data, isFetch) {
+	_sendInfo(data, isFetch) {
 		let dataStr = JSON.stringify(data)
 		try {
 			if (fetch && isFetch) {
@@ -52,9 +63,12 @@ class API {
 	}
 
 	/**
-	 * 通过img方式上报信息
+	 * 通过img上报数据
+	 *
+	 * @private
+	 * @param {object} data 上报的数据
 	 */
-	reportByImg(data) {
+	_reportByImg(data) {
 		if (!this.checkUrl(this.url)) {
 			console.log('上报信息url地址格式不正确,url=', this.url)
 			return
@@ -66,7 +80,7 @@ class API {
 				'?v=' +
 				new Date().getTime() +
 				'&' +
-				this.formatParams(data)
+				this._formatParams(data)
 		} catch (error) {
 			console.log(error)
 		}
@@ -74,13 +88,22 @@ class API {
 
 	/**
 	 * sendBeacon上报
+	 *
+	 * @private
+	 * @param {object} data 上报的数据
 	 */
-	reportByNavigator(data) {
+	_reportByNavigator(data) {
 		navigator.sendBeacon && navigator.sendBeacon(this.url, data)
 	}
 
-	// 格式化参数
-	formatParams(data) {
+	/**
+	 * 格式化参数
+	 *
+	 * @private
+	 * @param {object} data 传递的参数
+	 * @return {string} 拼接的字符串
+	 */
+	_formatParams(data) {
 		var arr = []
 		for (var name in data) {
 			arr.push(
@@ -90,8 +113,14 @@ class API {
 		return arr.join('&')
 	}
 
-	// 检测参数是否为url
-	checkUrl(url) {
+	/**
+	 * 检测是否符合 url 格式
+	 *
+	 * @private
+	 * @param {string} url 检测的url
+	 * @return {boolean} 拼接的字符串
+	 */
+	_checkUrl(url) {
 		if (!url) return false
 		var urlRule = /^[hH][tT][tT][pP]([sS]?):\/\//
 		return urlRule.test(url)

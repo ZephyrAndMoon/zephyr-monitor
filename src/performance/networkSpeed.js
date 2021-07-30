@@ -66,7 +66,7 @@ class MonitorNetworkSpeed extends BaseMonitor {
 						((this.endTime - this.startTime) / 1000) /
 						1024
 					).toFixed(2)
-					let extendsInfo = this.getExtendsInfo()
+					let extendsInfo = this._getExtendsInfo()
 					let data = {
 						...extendsInfo,
 						category: this.category,
@@ -75,7 +75,7 @@ class MonitorNetworkSpeed extends BaseMonitor {
 							curTime: new Date().format('yyyy-MM-dd HH:mm:ss'),
 							pageId: this.pageId,
 							networkSpeed: speed,
-							deviceInfo: this.getDeviceInfo(),
+							deviceInfo: this._getDeviceInfo(),
 						}),
 					}
 					console.log("It's network_speed", data)

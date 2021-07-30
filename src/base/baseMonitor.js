@@ -1,17 +1,16 @@
-import { ErrorLevelEnum, ErrorCategoryEnum } from './baseConfig.js'
-import DeviceInfo from '../device'
 import utils from '../utils/utils.js'
+import DeviceInfo from '../device'
 import TaskQueue from './taskQueue.js'
+import { ErrorLevelEnum, ErrorCategoryEnum } from './baseConfig.js'
 
-/**
- * 监控基类
- */
+// 监控基类
 class BaseMonitor {
 	/**
-	 * 上报错误地址
-	 * @param {*} params { reportUrl,extendsInfo }
+	 * @constructor
+	 *
+	 * @param {object} params { reportUrl,extendsInfo }
 	 */
-	constructor(params) {
+	constructor({ reportUrl, extendsInfo }) {
 		this.category = ErrorCategoryEnum.UNKNOW_ERROR //错误类型
 		this.level = ErrorLevelEnum.INFO //错误等级
 		this.msg = '' //错误信息
@@ -20,15 +19,17 @@ class BaseMonitor {
 		this.col = '' //列数
 		this.errorObj = '' //错误堆栈
 
-		this.reportUrl = params.reportUrl //上报错误地址
-		this.extendsInfo = params.extendsInfo //扩展信息
+		this.reportUrl = reportUrl //上报错误地址
+		this.extendsInfo = extendsInfo //扩展信息
 	}
 
 	/**
 	 * 记录错误信息
+	 *
+	 * @public
 	 */
 	recordError() {
-		this.handleRecordError()
+		this._handleRecordError()
 		//延迟记录日志
 		setTimeout(() => {
 			TaskQueue.isStop && TaskQueue.fire() //停止则fire
@@ -36,9 +37,11 @@ class BaseMonitor {
 	}
 
 	/**
-	 * 处理记录日志
+	 * 处理错误日志
+	 *
+	 * @private
 	 */
-	handleRecordError() {
+	_handleRecordError() {
 		try {
 			if (!this.msg) {
 				return
@@ -53,7 +56,7 @@ class BaseMonitor {
 				console.log('统计错误接口异常', this.msg)
 				return
 			}
-			let errorInfo = this.handleErrorInfo()
+			let errorInfo = this._handleErrorInfo()
 
 			console.log("\nIt's " + this.category, errorInfo)
 
@@ -66,9 +69,10 @@ class BaseMonitor {
 
 	/**
 	 * 处理错误信息
-	 * @param {*} extendsInfo
+	 *
+	 * @private
 	 */
-	handleErrorInfo() {
+	_handleErrorInfo() {
 		let txt = '错误类别: ' + this.category + '\r\n'
 		txt += '日志信息: ' + this.msg + '\r\n'
 		txt += 'url: ' + encodeURIComponent(this.url) + '\r\n'
@@ -84,11 +88,11 @@ class BaseMonitor {
 				txt += '其他错误: ' + JSON.stringify(this.errorObj) + '\r\n'
 				break
 		}
-		let deviceInfo = this.getDeviceInfo()
+		let deviceInfo = this._getDeviceInfo()
 		console.log('deviceInfo:')
 		console.log(deviceInfo)
 		txt += '设备信息: ' + deviceInfo //设备信息
-		let extendsInfo = this.getExtendsInfo()
+		let extendsInfo = this._getExtendsInfo()
 		let recordInfo = extendsInfo
 		recordInfo.category = this.category //错误分类
 		recordInfo.logType = this.level //错误级别
@@ -99,8 +103,10 @@ class BaseMonitor {
 
 	/**
 	 * 获取扩展信息
+	 *
+	 * @private
 	 */
-	getExtendsInfo() {
+	_getExtendsInfo() {
 		try {
 			let ret = {}
 			let extendsInfo = this.extendsInfo || {}
@@ -121,15 +127,17 @@ class BaseMonitor {
 			}
 			return ret
 		} catch (error) {
-			console.log('call getExtendsInfo error', error)
+			console.log('call _getExtendsInfo error', error)
 			return {}
 		}
 	}
 
 	/**
 	 * 获取设备信息
+	 *
+	 * @private
 	 */
-	getDeviceInfo() {
+	_getDeviceInfo() {
 		try {
 			let deviceInfo = DeviceInfo.getDeviceInfo()
 			return JSON.stringify(deviceInfo)
