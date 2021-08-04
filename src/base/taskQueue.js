@@ -1,42 +1,40 @@
 import API from './api.js'
 
-/**
- * 消息队列
- */
-var TaskQueue = {
+class TaskQueue {
 	/**
-	 * 是否停止fire
+	 * @constructor
 	 */
-	isStop: true,
+	constructor() {
+		this.isStop = true
+		this.queues = []
+	}
 
 	/**
-	 * 待处理消息列表
+	 * 添加上报信息
+	 *
+	 * @public
+	 * @param {string} reportUrl 上报的地址
+	 * @param {object} data 上报的数据
 	 */
-	queues: [],
-
-	/**
-	 * 添加消息
-	 * @param {*} reportUrl 上报url
-	 * @param {*} data 上报数据
-	 */
-	add: function (reportUrl, data) {
+	add(reportUrl, data) {
 		this.queues.push({ reportUrl, data })
-	},
+	}
 
 	/**
-	 * 统一上报
+	 * 上报
+	 *
+	 * @public
 	 */
-	fire: function () {
-		if (!this.queues || this.queues.length === 0) {
+	fire() {
+		if (this.queues.length === 0) {
 			this.isStop = true
 			return
 		}
 		this.isStop = false
-		let item = this.queues[0]
+		let item = this.queues.shift()
 		item.reportUrl && new API(item.reportUrl).report(item.data)
-		this.queues.splice(0, 1)
-		this.fire() //递归
-	},
+		this.fire()
+	}
 }
 
 export default TaskQueue

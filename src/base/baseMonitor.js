@@ -3,6 +3,8 @@ import DeviceInfo from '../device'
 import TaskQueue from './taskQueue.js'
 import { ErrorLevelEnum, ErrorCategoryEnum } from './baseConfig.js'
 
+const taskQueue = new TaskQueue()
+
 // 监控基类
 class BaseMonitor {
 	/**
@@ -32,7 +34,7 @@ class BaseMonitor {
 		this._handleRecordError()
 		//延迟记录日志
 		setTimeout(() => {
-			TaskQueue.isStop && TaskQueue.fire() //停止则fire
+			taskQueue.isStop && taskQueue.fire() //停止则fire
 		}, 100)
 	}
 
@@ -61,7 +63,7 @@ class BaseMonitor {
 			console.log("\nIt's " + this.category, errorInfo)
 
 			//记录日志
-			TaskQueue.add(this.reportUrl, errorInfo)
+			taskQueue.add(this.reportUrl, errorInfo)
 		} catch (error) {
 			console.log(error)
 		}
