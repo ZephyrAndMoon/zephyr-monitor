@@ -10,25 +10,31 @@ class MonitorNetworkSpeed extends BaseMonitor {
 		this.category = ErrorCategoryEnum.NETWORK_SPEED
 		this.pageId = options.pageId || ''
 		this.url = options.url || ''
+		this.timeInterval = 60 * 1000
+		this.downloadSize = 255438
+		this.filePath =
+			'https://file.40017.cn/tcservice/common/imags/network_speed.png'
+		this.startTime = 0
+		this.endTime = 0
 	}
 
-	// 图片大小 bytes
-	downloadSize = 255438
+	/**
+	 * 上报网络速度
+	 * @public
+	 */
+	reportNetworkSpeed() {
+		this._getSpeed()
+		//定时上报
+		setInterval(() => {
+			this._getSpeed()
+		}, this.timeInterval)
+	}
 
-	// 图片地址
-	filePath = 'https://file.40017.cn/tcservice/common/imags/network_speed.png'
-
-	// 开始时间
-	startTime = 0
-
-	// 结束时间
-	endTime = 0
-
-	// 上报定时间隔
-	timeInterval = 60 * 1000
-
-	// 当前时间
-	now() {
+	/**
+	 * 获取当前时间
+	 * @private
+	 */
+	_now() {
 		return (
 			performance.now() ||
 			performance.webkitNow() ||
@@ -39,17 +45,11 @@ class MonitorNetworkSpeed extends BaseMonitor {
 		)
 	}
 
-	// 上报网络速度
-	reportNetworkSpeed() {
-		this.getSpeed()
-		//定时上报
-		setInterval(() => {
-			this.getSpeed()
-		}, this.timeInterval)
-	}
-
-	// 第一种方式：根据XHR获取网速
-	getSpeed() {
+	/**
+	 * 通过XHR获取网速
+	 * @private
+	 */
+	_getSpeed() {
 		try {
 			let fileSize
 			let xhr = new XMLHttpRequest()
@@ -89,19 +89,25 @@ class MonitorNetworkSpeed extends BaseMonitor {
 		}
 	}
 
-	// 第二种方式：获取网络速度
-	getSpeedByImg() {
+	/**
+	 * 通过Img获取网速
+	 * @private
+	 */
+	_getSpeedByImg() {
 		let img = new Image()
 		img.onload = () => {
-			this.endTime = this.now()
-			this.calcSpeed()
+			this.endTime = this._now()
+			this._calcSpeed()
 		}
-		this.startTime = this.now()
+		this.startTime = this._now()
 		img.src = this.filePath + '?rand=' + this.startTime
 	}
 
-	// 计算速度
-	calcSpeed() {
+	/**
+	 * 计算速度
+	 * @private
+	 */
+	_calcSpeed() {
 		let duration = (this.endTime - this.startTime) / 1000
 		let bitsLoaded = this.downloadSize * 8
 		let speedBps = (bitsLoaded / duration).toFixed(2)
