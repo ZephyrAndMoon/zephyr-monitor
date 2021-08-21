@@ -2,14 +2,16 @@ const Koa = require('koa2')
 const app = new Koa()
 const fs = require('fs')
 const cor = require('./utils/cor')
+const path = require('path')
 const router = require('koa-router')()
-const StreamZip = require('node-stream-zip')
 
 const koaBody = require('koa-body')
-const { logger, accessLogger } = require('./utils/log')
-const { removeFile } = require('./utils/util')
-
-const sourceMapTool = require('source-map')
+const { accessLogger } = require('./utils/log')
+const {
+	removeFile,
+	parseErrorInfo,
+	processSourceFile,
+} = require('./utils/util')
 
 const post = 3000
 
@@ -19,50 +21,41 @@ app.use(
 	koaBody({
 		multipart: true,
 		formidable: {
-			maxFileSize: 200 * 1024 * 1024, // 设置上传文件大小最大限制，默认2M
+			maxFileSize: 200 * 1024 * 1024,
 		},
 	})
 )
 // 配置日志
 app.use(accessLogger())
 
-// 子路由1
+// 测试路由
 router.get('/', async ctx => {
 	ctx.body = 'Server Status Ready'
 })
 
-// 子路由1
+// 监控信息上报
 router.post('/monitor', async ctx => {
-	console.log(ctx.request.body)
-	logger.info(ctx.request.body)
-	ctx.body = 'Already recorded parameters'
+	const parseInfo = await parseErrorInfo(
+		ctx.request.body,
+		path.resolve(__dirname, 'source', fs.readdirSync('./source')[0])
+	)
+	console.log(parseInfo)
+	ctx.body = {
+		code: 1,
+		data: parseInfo,
+	}
 })
 
+// sourcemap资源上传并解压
 router.post('/sourcemapUpload', async ctx => {
-	const { file } = ctx.request.files
-	const name = file.name
-	const _path = file.path
-	const fileWrite = fs.createWriteStream(`./${name}`)
-	fs.createReadStream(_path).pipe(fileWrite)
-	removeFile('./sourcemap')
-	fileWrite.on('finish', () => {
-		// 写入文件数据
-		const zip = new StreamZip({
-			file: './sourcemap.zip',
-			storeEntries: true,
-		})
-		zip.on('ready', () => {
-			zip.extract(null, './', (err, count) => {
-				console.log(
-					err ? 'Extract error' : `Extracted ${count} entries`
-				)
-				zip.close()
-			})
-		})
-	})
+	const { isSuccess, msg } = await processSourceFile(
+		ctx.request.files?.file,
+		path.resolve(__dirname),
+		removeFile('./source')
+	)
 	ctx.body = {
-		code: 200,
-		msg: '文件上传成功',
+		code: isSuccess ? 1 : 0,
+		msg,
 	}
 })
 
