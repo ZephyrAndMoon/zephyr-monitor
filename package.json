@@ -38,6 +38,7 @@
 		"webpack-hot-middleware": "^2.19.0"
 	},
 	"dependencies": {
-		"axios": "^0.21.1"
+		"axios": "^0.21.1",
+		"ua-device": "^0.1.10"
 	}
 }

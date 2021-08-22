@@ -70,6 +70,10 @@ var DeviceInfo = (function () {
 			device: ['Mobile', 'Tablet', 'iPad'],
 		},
 	}
+	//引入ua-device依赖
+	var UA = require('ua-device');
+	var device_type = VariableLibrary.navigator.userAgent || {};//获取userAgent信息
+	var deviceUaInfo = new UA(device_type);
 	// 方法库
 	var MethodLibrary = (function () {
 		return {
@@ -616,12 +620,16 @@ var DeviceInfo = (function () {
 				MethodLibrary.matchInfoMap()
 				var info = {
 					deviceType: MethodLibrary.getDeviceType(), // 设备类型
-					OS: MethodLibrary.getOS(), // 操作系统
+					// browserInfo: MethodLibrary.getBrowserInfo(), // 浏览器信息
+					browserInfo: deviceUaInfo.browser, //浏览器信息
+					// OS: MethodLibrary.getOS(), // 操作系统
+					// OSVersion: MethodLibrary.getOSVersion(), // 操作系统版本
+					deviceInfo: deviceUaInfo.device, //设备信息
+					engineInfo: deviceUaInfo.engine, // 引擎信息
+					OSInfo: deviceUaInfo.os, // 操作系统信息
 					screenWidth: _window.screen.width, // 屏幕宽
 					screenHeight: _window.screen.height, // 屏幕高
 					netWork: MethodLibrary.getNetwork(), // 联网类型
-					OSVersion: MethodLibrary.getOSVersion(), // 操作系统版本
-					browserInfo: MethodLibrary.getBrowserInfo(), // 浏览器信息
 					orientation: MethodLibrary.getOrientationStatus(), // 横竖屏
 					language: MethodLibrary.getLanguage(), // 当前使用的语言-国家
 					fingerprint: MethodLibrary.createFingerprint(params.domain), // 浏览器指纹
