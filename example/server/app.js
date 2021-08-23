@@ -35,9 +35,12 @@ router.get('/', async ctx => {
 
 // 监控信息上报
 router.post('/monitor', async ctx => {
+	const sourcemapFileName =
+		ctx.request.body?.logInfo?.sourcemapFileName ||
+		fs.readdirSync('./source')[0]
 	const parseInfo = await parseErrorInfo(
 		ctx.request.body,
-		path.resolve(__dirname, 'source', fs.readdirSync('./source')[0])
+		path.resolve(__dirname, 'source', sourcemapFileName)
 	)
 	console.log(parseInfo)
 	ctx.body = {
