@@ -1,4 +1,4 @@
-import utils from '../utils/utils'
+import utils from '../utils/util'
 import BaseMonitor from '../base/baseMonitor.js'
 import { ErrorCategoryEnum, ErrorLevelEnum } from '../base/baseConfig.js'
 
@@ -19,21 +19,28 @@ class VueError extends BaseMonitor {
 		}
 		Vue.config.errorHandler = (error, vm, info) => {
 			try {
-				let reg = /\n(.*)\n/
-				reg.exec(error.stack)
-				let metaData = {
-					message: error.message,
-					stack: RegExp.$1,
-					info: info,
-				}
+				const { message, stack } = error
+				const stackMatchInfo = /\((.*)\)/.exec(stack)
+				const errorPosition = RegExp.$1
 
-				if (Object.prototype.toString.call(vm) === '[object Object]') {
-					metaData.componentPosition = utils.formatComponentInfo(vm)
-					metaData.propsData = vm.$options.propsData
+				if (errorPosition) {
+					const { line, col, fileName } =
+						utils.parseErrorPosition(errorPosition)
+					this.line = line
+					this.col = col
+					this.sourcemapFileName = fileName + '.map'
 				}
-				this.level = ErrorLevelEnum.WARN
-				this.msg = JSON.stringify(metaData)
+				if (Object.prototype.toString.call(vm) === '[object Object]') {
+					this.otherErrorInfo = {
+						componentPosition: utils.formatComponentInfo(vm),
+						propsData: vm.$options.propsData,
+					}
+				}
+				this.level = ErrorLevelEnum.ERROR
 				this.category = ErrorCategoryEnum.VUE_ERROR
+				this.msg = message
+				this.url = errorPosition
+				this.stack = error.stack
 				this.recordError()
 			} catch (error) {
 				console.log('vue错误异常', error)

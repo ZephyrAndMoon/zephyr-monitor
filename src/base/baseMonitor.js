@@ -1,4 +1,4 @@
-import utils from '../utils/utils.js'
+import utils from '../utils/util.js'
 import DeviceInfo from '../device'
 import TaskQueue from './taskQueue.js'
 import { ErrorLevelEnum, ErrorCategoryEnum } from './baseConfig.js'
@@ -13,13 +13,15 @@ class BaseMonitor {
 	 * @param {object} params { reportUrl,extendsInfo }
 	 */
 	constructor({ reportUrl, extendsInfo }) {
-		this.category = ErrorCategoryEnum.UNKNOW_ERROR //错误类型
+		this.category = ErrorCategoryEnum.UNKNOWN_ERROR //错误类型
 		this.level = ErrorLevelEnum.INFO //错误等级
-		this.msg = '' //错误信息
+		this.msg = {} //错误信息
 		this.url = '' //错误信息地址
-		this.line = '' //行数
 		this.col = '' //列数
-		this.errorObj = '' //错误堆栈
+		this.line = '' //行数
+		this.stack = '' //错误堆栈
+		this.otherErrorInfo = {} //其他错误内容
+		this.sourcemapFileName = '' // 映射的sourcemap文件名
 
 		this.reportUrl = reportUrl //上报错误地址
 		this.extendsInfo = extendsInfo //扩展信息
@@ -75,31 +77,32 @@ class BaseMonitor {
 	 * @private
 	 */
 	_handleErrorInfo() {
-		let txt = '错误类别: ' + this.category + '\r\n'
-		txt += '日志信息: ' + this.msg + '\r\n'
-		txt += 'url: ' + encodeURIComponent(this.url) + '\r\n'
-		switch (this.category) {
-			case ErrorCategoryEnum.JS_ERROR:
-				txt += '错误行号: ' + this.line + '\r\n'
-				txt += '错误列号: ' + this.col + '\r\n'
-				if (this.errorObj && this.errorObj.stack) {
-					txt += '错误栈: ' + this.errorObj.stack + '\r\n'
-				}
-				break
-			default:
-				txt += '其他错误: ' + JSON.stringify(this.errorObj) + '\r\n'
-				break
+		let logInfo = {
+			url: this.url,
+			errorInfo: this.msg,
+			otherErrorInfo: this.otherErrorInfo,
 		}
-		let deviceInfo = this._getDeviceInfo()
-		console.log('deviceInfo:')
-		console.log(deviceInfo)
-		txt += '设备信息: ' + deviceInfo //设备信息
-		let extendsInfo = this._getExtendsInfo()
-		let recordInfo = extendsInfo
-		recordInfo.category = this.category //错误分类
-		recordInfo.logType = this.level //错误级别
-		recordInfo.logInfo = txt //错误信息
-		recordInfo.deviceInfo = deviceInfo //设备信息
+
+		
+		if (this.stack) {
+			logInfo = {
+				...logInfo,
+				col: this.col,
+				line: this.line,
+				stack: this.stack,
+				sourcemapFileName: this.sourcemapFileName,
+			}
+		}
+		const deviceInfo = this._getDeviceInfo()
+		const extendsInfo = this._getExtendsInfo()
+		let recordInfo = {
+			...extendsInfo,
+			deviceInfo,
+			category: this.category,
+			logType: this.level,
+			logInfo: logInfo,
+		}
+		console.log('recordInfo: ', recordInfo)
 		return recordInfo
 	}
 
@@ -142,7 +145,7 @@ class BaseMonitor {
 	_getDeviceInfo() {
 		try {
 			let deviceInfo = DeviceInfo.getDeviceInfo()
-			return JSON.stringify(deviceInfo)
+			return deviceInfo
 		} catch (error) {
 			console.log(error)
 			return ''
