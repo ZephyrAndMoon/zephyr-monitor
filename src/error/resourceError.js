@@ -19,7 +19,6 @@ class ResourceError extends BaseMonitor {
 					if (!event) {
 						return
 					}
-					this.category = ErrorCategoryEnum.RESOURCE_ERROR
 					let target = event.target || event.srcElement
 					var isElementTarget =
 						target instanceof HTMLScriptElement ||
@@ -28,17 +27,15 @@ class ResourceError extends BaseMonitor {
 					if (!isElementTarget) {
 						return // js error不再处理
 					}
-					this.level =
-						target.tagName.toUpperCase() === 'IMG'
-							? ErrorLevelEnum.WARN
-							: ErrorLevelEnum.ERROR
+					this.level = ErrorLevelEnum.ERROR
+					this.category = ErrorCategoryEnum.RESOURCE_ERROR
 					this.msg = '加载 ' + target.tagName + ' 资源错误'
 					this.url = target.src || target.href
-					this.errorObj = target
 					this.recordError()
 				} catch (error) {
 					console.log('资源加载收集异常', error)
 				}
+				event.preventDefault()
 			},
 			true
 		)
