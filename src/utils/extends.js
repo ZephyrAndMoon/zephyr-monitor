@@ -71,7 +71,7 @@ export default {
 
 	/**
 	 * 是否为null
-	 * @param {String} str
+	 * @param {string} str
 	 */
 	isNull(str) {
 		return str == undefined || str == '' || str == null
