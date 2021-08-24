@@ -17,14 +17,15 @@ const analysisErrorPosition = (sourcemapFile, line, col) => {
 	return new Promise(resolve => {
 		fs.readFile(sourcemapFile, 'utf8', function readContent(
 			err,
-			sourcemapcontent
+			sourcemapContent
 		) {
+			// sourcemapContent 文件内容
 			if (err) {
 				throw err
 			}
 			// SourceMapConsumer.with 是该模块提供的消费 source-map 的一种方式
 			sourceMapTool.SourceMapConsumer.with(
-				sourcemapcontent,
+				sourcemapContent,
 				null,
 				consumer =>
 					resolve(
@@ -39,33 +40,21 @@ const analysisErrorPosition = (sourcemapFile, line, col) => {
 }
 
 const parseErrorInfo = async (info, sourceUrl) => {
-	const { deviceInfo, category, logType, logInfo } = info
-	const {
-		stack,
-		col,
-		line,
-		errorType,
-		errorInfo,
-		otherErrorInfo,
-	} = JSON.parse(logInfo)
-	let positionInfo = {}
+	const { col, line } = info.logInfo // 取行和列
+	// col , line, sourceUrl 文件路径
+	let errorPosition = ''
 	if (col && line) {
-		const { line: _line, source: _source } = await analysisErrorPosition(
+		const a = await analysisErrorPosition(
 			sourceUrl,
 			line,
 			col
 		)
-		positionInfo = _source + ':' + _line
+		console.log(a)
+		// errorPosition = _source + ':' + _line
 	}
 	return {
-		logType,
-		category,
-		errorInfo,
-		errorType,
-		stack,
-		positionInfo,
-		otherErrorInfo,
-		deviceInfo,
+		...info,
+		errorPosition,
 	}
 }
 
