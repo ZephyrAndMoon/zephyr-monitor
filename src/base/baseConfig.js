@@ -12,6 +12,11 @@ export class ErrorCategoryEnum {
 		return 'resource_error'
 	}
 
+	// 跨域js错误
+	static get CROSS_SCRIPT_ERROR() {
+		return 'cross_script_error'
+	}
+
 	// vue 错误
 	static get VUE_ERROR() {
 		return 'vue_error'
@@ -37,14 +42,9 @@ export class ErrorCategoryEnum {
 		return 'console_error'
 	}
 
-	// 跨域js错误
-	static get CROSS_SCRIPT_ERROR() {
-		return 'cross_srcipt_error'
-	}
-
 	// 未知异常
-	static get UNKNOW_ERROR() {
-		return 'unknow_error'
+	static get UNKNOWN_ERROR() {
+		return 'unknown_error'
 	}
 
 	// 性能上报
