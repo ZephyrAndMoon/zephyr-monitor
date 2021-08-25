@@ -10,6 +10,7 @@ class MonitorNetworkSpeed extends BaseMonitor {
 		this.category = ErrorCategoryEnum.NETWORK_SPEED
 		this.pageId = options.pageId || ''
 		this.url = options.url || ''
+		this.reportMethod = options.reportMethod || {}
 		this.timeInterval = 60 * 1000
 		this.downloadSize = 255438
 		this.filePath =
@@ -79,7 +80,7 @@ class MonitorNetworkSpeed extends BaseMonitor {
 						}),
 					}
 					console.log("It's network_speed", data)
-					new API(this.url).report(data)
+					new API(this.url, this.reportMethod).report(data)
 				}
 			}
 			xhr.open('GET', this.filePath + '?rand=' + Math.random(), true)

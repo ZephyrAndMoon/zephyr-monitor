@@ -4,11 +4,11 @@
 class API {
 	/**
 	 * @constructor
-	 *
 	 * @param {string} string 上报的 url
 	 */
-	constructor(url) {
+	constructor(url, reportMethod) {
 		this.url = url
+		this.reportMethod = reportMethod
 	}
 
 	/**
@@ -18,22 +18,48 @@ class API {
 	 * @param {object} data 上报的数据
 	 * @param {boolean} isFetch 是否优先通过fetch上报
 	 */
-	report(data, isFetch) {
+	report(data) {
+		const { useImg, useFetch, useBeacon } = this.reportMethod
 		if (!this._checkUrl(this.url)) {
 			console.log('上报信息url地址格式不正确,url=', this.url)
 			return
 		}
 		console.log('上报地址：' + this.url)
-		this._sendInfo(data, isFetch)
+		if (useImg) {
+			this._sendInfoByImg(data) // 图片上报数据
+		} else if (useFetch) {
+			this._sendInfoByFetch(data) // Fetch上报数据
+		} else if (useBeacon) {
+			this._sendInfoByNavigator(data) // Beacon上报数据
+		} else {
+			this._sendInfoByXHR(data) // XHR上报数据
+		}
 	}
 
 	/**
-	 * 发送信息
+	 * 通过XHR上报数据
 	 * @private
 	 * @param {object} data 上报的数据
-	 * @param {boolean} isFetch 是否优先通过fetch上报
 	 */
-	_sendInfo(data, isFetch) {
+	_sendInfoByXHR(data) {
+		let dataStr = JSON.stringify(data)
+		try {
+			var xhr = new XMLHttpRequest()
+			xhr.open('POST', this.url, true)
+			//xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+			xhr.setRequestHeader('Content-Type', 'application/json')
+			xhr.send(dataStr)
+		} catch (error) {
+			console.log('XHR请求异常', error)
+		}
+	}
+
+	/**
+	 * 通过Fetch上报数据
+	 * @private
+	 * @param {object} data 上报的数据
+	 */
+	_sendInfoByFetch(data) {
 		let dataStr = JSON.stringify(data)
 		try {
 			if (fetch && isFetch) {
@@ -47,29 +73,22 @@ class API {
 					keepalive: true,
 				})
 				return
+			} else {
+				console.warn('当前浏览器不支持fetch，采用默认方式XHR上报数据')
+				this._sendInfoByXHR(data)
 			}
 		} catch (error) {
 			console.log('fetch请求异常', error)
-		}
-		try {
-			var xhr = new XMLHttpRequest()
-			xhr.open('POST', this.url, true)
-			//xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-			xhr.setRequestHeader('Content-Type', 'application/json')
-			xhr.send(dataStr)
-		} catch (error) {
-			console.log(error)
 		}
 	}
 
 	/**
 	 * 通过img上报数据
-	 *
 	 * @private
 	 * @param {object} data 上报的数据
 	 */
-	_reportByImg(data) {
-		if (!this.checkUrl(this.url)) {
+	_sendInfoByImg(data) {
+		if (!this._checkUrl(this.url)) {
 			console.log('上报信息url地址格式不正确,url=', this.url)
 			return
 		}
@@ -82,23 +101,25 @@ class API {
 				'&' +
 				this._formatParams(data)
 		} catch (error) {
-			console.log(error)
+			console.log('img请求异常', error)
 		}
 	}
 
 	/**
 	 * sendBeacon上报
-	 *
 	 * @private
 	 * @param {object} data 上报的数据
 	 */
-	_reportByNavigator(data) {
-		navigator.sendBeacon && navigator.sendBeacon(this.url, data)
+	_sendInfoByNavigator(data) {
+		const formData = new FormData()
+		Object.keys(data).forEach(key => {
+			formData.append(key, data[key])
+		})
+		navigator.sendBeacon && navigator.sendBeacon(this.url, formData)
 	}
 
 	/**
 	 * 格式化参数
-	 *
 	 * @private
 	 * @param {object} data 传递的参数
 	 * @return {string} 拼接的字符串
@@ -115,7 +136,6 @@ class API {
 
 	/**
 	 * 检测是否符合 url 格式
-	 *
 	 * @private
 	 * @param {string} url 检测的url
 	 * @return {boolean} 拼接的字符串

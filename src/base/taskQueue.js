@@ -16,8 +16,8 @@ class TaskQueue {
 	 * @param {string} reportUrl 上报的地址
 	 * @param {object} data 上报的数据
 	 */
-	add(reportUrl, data) {
-		this.queues.push({ reportUrl, data })
+	add(reportUrl, reportMethod, data) {
+		this.queues.push({ reportUrl, reportMethod, data })
 	}
 
 	/**
@@ -32,7 +32,8 @@ class TaskQueue {
 		}
 		this.isStop = false
 		let item = this.queues.shift()
-		item.reportUrl && new API(item.reportUrl).report(item.data)
+		item.reportUrl &&
+			new API(item.reportUrl, item.reportMethod).report(item.data)
 		this.fire()
 	}
 }

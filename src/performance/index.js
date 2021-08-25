@@ -22,6 +22,7 @@ class MonitorPerformance extends BaseMonitor {
 		this.category = ErrorCategoryEnum.PERFORMANCE
 		this.pageId = options.pageId || ''
 		this.url = options.url || ''
+		this.reportMethod = options.reportMethod
 	}
 
 	/**
@@ -58,7 +59,7 @@ class MonitorPerformance extends BaseMonitor {
 			console.log('report data =', data)
 			localStorage.setItem('page_performance', JSON.stringify(data))
 			//发送监控数据
-			new API(this.url).report(data, true)
+			new API(this.url, this.reportMethod).report(data)
 			this._clearPerformance()
 		} catch (error) {
 			console.log('性能信息上报异常：', error)
@@ -133,9 +134,9 @@ class MonitorPerformance extends BaseMonitor {
 	_generateMarkUv() {
 		const date = new Date()
 		let psMarkUv = localStorage.getItem('ps_markUv') || ''
-		const datatime = localStorage.getItem('ps_markUvTime') || ''
+		const dataTime = localStorage.getItem('ps_markUvTime') || ''
 		const today = date.format('yyyy/MM/dd 23:59:59')
-		if ((!psMarkUv && !datatime) || date.getTime() > datatime * 1) {
+		if ((!psMarkUv && !dataTime) || date.getTime() > dataTime * 1) {
 			psMarkUv = this._randomString()
 			localStorage.setItem('ps_markUv', psMarkUv)
 			localStorage.setItem('ps_markUvTime', new Date(today).getTime())

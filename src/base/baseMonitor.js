@@ -12,7 +12,7 @@ class BaseMonitor {
 	 *
 	 * @param {object} params { reportUrl,extendsInfo }
 	 */
-	constructor({ reportUrl, extendsInfo }) {
+	constructor({ reportUrl, extendsInfo, reportMethod }) {
 		this.category = ErrorCategoryEnum.UNKNOWN_ERROR //错误类型
 		this.level = ErrorLevelEnum.INFO //错误等级
 		this.msg = {} //错误信息
@@ -25,6 +25,7 @@ class BaseMonitor {
 
 		this.reportUrl = reportUrl //上报错误地址
 		this.extendsInfo = extendsInfo //扩展信息
+		this.reportMethod = reportMethod
 	}
 
 	/**
@@ -65,7 +66,7 @@ class BaseMonitor {
 			console.log("\nIt's " + this.category, errorInfo)
 
 			//记录日志
-			taskQueue.add(this.reportUrl, errorInfo)
+			taskQueue.add(this.reportUrl, this.reportMethod, errorInfo)
 		} catch (error) {
 			console.log(error)
 		}
@@ -83,7 +84,6 @@ class BaseMonitor {
 			otherErrorInfo: this.otherErrorInfo,
 		}
 
-		
 		if (this.stack) {
 			logInfo = {
 				...logInfo,
@@ -96,11 +96,11 @@ class BaseMonitor {
 		const deviceInfo = this._getDeviceInfo()
 		const extendsInfo = this._getExtendsInfo()
 		let recordInfo = {
-			...extendsInfo,
-			deviceInfo,
-			category: this.category,
 			logType: this.level,
-			logInfo: logInfo,
+			category: this.category,
+			logInfo: JSON.stringify(logInfo),
+			deviceInfo: JSON.stringify(deviceInfo),
+			extendsInfo: JSON.stringify(extendsInfo),
 		}
 		console.log('recordInfo: ', recordInfo)
 		return recordInfo

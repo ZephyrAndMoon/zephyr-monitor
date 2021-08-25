@@ -9,7 +9,7 @@ import MonitorPerformance from './performance'
 import MonitorNetworkSpeed from './performance/networkSpeed'
 import './utils/extends'
 
-class ErrorMonitor {
+class FrontEndMonitor {
 	constructor() {
 		this.jsError = true
 		this.vueError = false
@@ -30,9 +30,10 @@ class ErrorMonitor {
 		this.promiseError = !(options.promiseError === false)
 		this.resourceError = !(options.resourceError === false)
 
-		let reportUrl = options.url //上报错误地址
-		let extendsInfo = options.extendsInfo || {} //扩展信息（一般用于系统个性化分析）
-		let param = { reportUrl, extendsInfo }
+		let reportUrl = options.url
+		let extendsInfo = options.extendsInfo || {}
+		let reportMethod = options.reportMethod || {}
+		let param = { reportUrl, extendsInfo, reportMethod }
 
 		if (this.jsError) {
 			new JsError(param).handleError()
@@ -53,11 +54,14 @@ class ErrorMonitor {
 
 	/**
 	 * 监听页面性能
-	 * @param {*} options {pageId：页面标示,url：上报地址}
+	 * @param {*} options {pageId：页面标示, url：上报地址, reportMethod: 上报方式}
 	 */
 	monitorPerformance(options) {
 		options = options || {}
+		console.log('options: ', options);
+		// 网络状态监控
 		new MonitorNetworkSpeed(options).reportNetworkSpeed()
+		// 页面性能监控
 		let recordFunc = () => {
 			new MonitorPerformance(options).record()
 		}
@@ -66,4 +70,4 @@ class ErrorMonitor {
 	}
 }
 
-export default ErrorMonitor
+export default FrontEndMonitor
