@@ -13,9 +13,6 @@ class JSError extends BaseMonitor {
 	 */
 	handleError() {
 		window.onerror = (msg, url, line, col, error) => {
-			console.log('col: ', col)
-			console.log('line: ', line)
-			console.log(error)
 			try {
 				this.level = ErrorLevelEnum.WARN
 				this.category = ErrorCategoryEnum.JS_ERROR
