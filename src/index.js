@@ -1,4 +1,4 @@
-import ErrorMonitor from "./monitor.js";
-export { ErrorMonitor }
+import FrontEndMonitor from './monitor.js'
+export { FrontEndMonitor }
 
-window.ErrorMonitor = ErrorMonitor ;
+window.FEMonitor = FrontEndMonitor

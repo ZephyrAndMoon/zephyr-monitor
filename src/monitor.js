@@ -1,9 +1,9 @@
 import {
-	ConsoleError,
 	JsError,
+	VueError,
+	ConsoleError,
 	PromiseError,
 	ResourceError,
-	VueError,
 } from './error'
 import MonitorPerformance from './performance'
 import MonitorNetworkSpeed from './performance/networkSpeed'
@@ -12,10 +12,10 @@ import './utils/extends'
 class ErrorMonitor {
 	constructor() {
 		this.jsError = true
+		this.vueError = false
 		this.promiseError = true
 		this.resourceError = true
-		this.consoleError = false //console.error默认不处理
-		this.vueError = false
+		this.consoleError = false
 	}
 
 	/**
@@ -24,11 +24,11 @@ class ErrorMonitor {
 	 */
 	init(options) {
 		options = options || {}
+		this.vueError = options.vueError
+		this.consoleError = options.consoleError
 		this.jsError = !(options.jsError === false)
 		this.promiseError = !(options.promiseError === false)
 		this.resourceError = !(options.resourceError === false)
-		this.consoleError = options.consoleError
-		this.vueError = options.vueError
 
 		let reportUrl = options.url //上报错误地址
 		let extendsInfo = options.extendsInfo || {} //扩展信息（一般用于系统个性化分析）
