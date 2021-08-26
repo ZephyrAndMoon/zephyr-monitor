@@ -62,7 +62,7 @@ class API {
 	_sendInfoByFetch(data) {
 		let dataStr = JSON.stringify(data)
 		try {
-			if (fetch && isFetch) {
+			if (fetch) {
 				fetch(this.url, {
 					headers: {
 						'Content-Type': 'application/json',
