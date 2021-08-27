@@ -57,7 +57,7 @@ class MonitorPerformance extends BaseMonitor {
 				logInfo: JSON.stringify(result),
 			}
 			console.log('report data =', data)
-			localStorage.setItem('page_performance', JSON.stringify(data))
+			sessionStorage.setItem('page_performance', JSON.stringify(data))
 			//发送监控数据
 			new API(this.url, this.reportMethod).report(data)
 			this._clearPerformance()
@@ -123,10 +123,10 @@ class MonitorPerformance extends BaseMonitor {
 	 * @return void
 	 */
 	_generateMarkUser() {
-		let psMarkUser = localStorage.getItem('ps_markUser') || ''
+		let psMarkUser = sessionStorage.getItem('ps_markUser') || ''
 		if (!psMarkUser) {
 			psMarkUser = this._randomString()
-			localStorage.setItem('ps_markUser', psMarkUser)
+			sessionStorage.setItem('ps_markUser', psMarkUser)
 		}
 		return psMarkUser
 	}
@@ -138,13 +138,13 @@ class MonitorPerformance extends BaseMonitor {
 	 */
 	_generateMarkUv() {
 		const date = new Date()
-		let psMarkUv = localStorage.getItem('ps_markUv') || ''
-		const dataTime = localStorage.getItem('ps_markUvTime') || ''
+		let psMarkUv = sessionStorage.getItem('ps_markUv') || ''
+		const dataTime = sessionStorage.getItem('ps_markUvTime') || ''
 		const today = date.format('yyyy/MM/dd 23:59:59')
 		if ((!psMarkUv && !dataTime) || date.getTime() > dataTime * 1) {
 			psMarkUv = this._randomString()
-			localStorage.setItem('ps_markUv', psMarkUv)
-			localStorage.setItem('ps_markUvTime', new Date(today).getTime())
+			sessionStorage.setItem('ps_markUv', psMarkUv)
+			sessionStorage.setItem('ps_markUvTime', new Date(today).getTime())
 		}
 		return psMarkUv
 	}
