@@ -56,7 +56,7 @@ export default {
 	/**
 	 * 获取当前组件信息
 	 * @param {object} vm vue实例
-	 * @return {string}
+	 * @return {string} 组件信息
 	 */
 	formatComponentInfo(vm) {
 		if (vm.$root === vm) return 'root'

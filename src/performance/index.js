@@ -6,7 +6,6 @@ import { ErrorLevelEnum, ErrorCategoryEnum } from '../base/baseConfig.js'
 class MonitorPerformance extends BaseMonitor {
 	/**
 	 * @constructor
-	 *
 	 * @param {object} options
 	 */
 	constructor(options) {
@@ -22,13 +21,14 @@ class MonitorPerformance extends BaseMonitor {
 		this.category = ErrorCategoryEnum.PERFORMANCE
 		this.pageId = options.pageId || ''
 		this.url = options.url || ''
-		this.reportMethod = options.reportMethod
+		this.reportMethod = options.reportMethod || {}
 	}
 
 	/**
 	 * 记录页面信息
 	 * @private
 	 * @param {object} options { pageId ：页面标示, url ：上报地址 }
+	 * @return void
 	 */
 	record() {
 		try {
@@ -70,8 +70,10 @@ class MonitorPerformance extends BaseMonitor {
 	 * 获取需要上报资源数据类型
 	 * @private
 	 * @param {object} options 上报的数据
+	 * @return {array} 资源数据类型数组
 	 */
 	_getSourceType(options) {
+		console.log('options: ', options)
 		let usefulType = [] //'navigation'
 		!!options.isRScript && usefulType.push('script') //资源数据细分，是否上报script数据
 		!!options.isRCSS && usefulType.push('css') //资源数据细分，是否上报CSS数据
@@ -86,6 +88,7 @@ class MonitorPerformance extends BaseMonitor {
 	 * 生成随机字符串
 	 * @private
 	 * @param {number} len 字符串长度
+	 * @return {string} 随机字符串
 	 */
 	_randomString(len) {
 		len = len || 10
@@ -117,12 +120,13 @@ class MonitorPerformance extends BaseMonitor {
 	/**
 	 * 生成用户标识
 	 * @private
+	 * @return void
 	 */
 	_generateMarkUser() {
-		let psMarkUser = sessionStorage.getItem('ps_markUser') || ''
+		let psMarkUser = localStorage.getItem('ps_markUser') || ''
 		if (!psMarkUser) {
 			psMarkUser = this._randomString()
-			sessionStorage.setItem('ps_markUser', psMarkUser)
+			localStorage.setItem('ps_markUser', psMarkUser)
 		}
 		return psMarkUser
 	}
@@ -130,6 +134,7 @@ class MonitorPerformance extends BaseMonitor {
 	/**
 	 * 生成 Uv: Unique Visitor
 	 * @private
+	 * @return void
 	 */
 	_generateMarkUv() {
 		const date = new Date()
@@ -147,6 +152,7 @@ class MonitorPerformance extends BaseMonitor {
 	/**
 	 * 清除性能信息
 	 * @private
+	 * @return void
 	 */
 	_clearPerformance() {
 		if (window.performance && window.performance.clearResourceTimings) {

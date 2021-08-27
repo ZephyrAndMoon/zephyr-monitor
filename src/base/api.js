@@ -13,18 +13,17 @@ class API {
 
 	/**
 	 * 上报信息（默认方式）
-	 *
 	 * @public
 	 * @param {object} data 上报的数据
-	 * @param {boolean} isFetch 是否优先通过fetch上报
+	 * @return void
 	 */
 	report(data) {
-		const { useImg, useFetch, useBeacon } = this.reportMethod
 		if (!this._checkUrl(this.url)) {
 			console.log('上报信息url地址格式不正确,url=', this.url)
 			return
 		}
 		console.log('上报地址：' + this.url)
+		const { useImg, useFetch, useBeacon } = this.reportMethod
 		if (useImg) {
 			this._sendInfoByImg(data) // 图片上报数据
 		} else if (useFetch) {
@@ -37,9 +36,10 @@ class API {
 	}
 
 	/**
-	 * 通过XHR上报数据
+	 * 通过 XHR 上报数据
 	 * @private
 	 * @param {object} data 上报的数据
+	 * @return void
 	 */
 	_sendInfoByXHR(data) {
 		let dataStr = JSON.stringify(data)
@@ -55,9 +55,10 @@ class API {
 	}
 
 	/**
-	 * 通过Fetch上报数据
+	 * 通过 Fetch 上报数据
 	 * @private
 	 * @param {object} data 上报的数据
+	 * @return void
 	 */
 	_sendInfoByFetch(data) {
 		let dataStr = JSON.stringify(data)
@@ -86,6 +87,7 @@ class API {
 	 * 通过img上报数据
 	 * @private
 	 * @param {object} data 上报的数据
+	 * @return void
 	 */
 	_sendInfoByImg(data) {
 		if (!this._checkUrl(this.url)) {
@@ -109,6 +111,7 @@ class API {
 	 * sendBeacon上报
 	 * @private
 	 * @param {object} data 上报的数据
+	 * @return void
 	 */
 	_sendInfoByNavigator(data) {
 		const formData = new FormData()

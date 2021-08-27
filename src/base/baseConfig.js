@@ -77,13 +77,3 @@ export class ErrorLevelEnum {
 		return 'Info'
 	}
 }
-
-// Ajax库枚举
-export class AjaxLibEnum {
-	static get AXIOS() {
-		return 'axios'
-	}
-	static get DEFAULT() {
-		return 'default'
-	}
-}

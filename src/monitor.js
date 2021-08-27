@@ -10,6 +10,9 @@ import MonitorNetworkSpeed from './performance/networkSpeed'
 import './utils/extends'
 
 class FrontEndMonitor {
+	/**
+	 * @constructor
+	 */
 	constructor() {
 		this.jsError = true
 		this.vueError = false
@@ -20,7 +23,9 @@ class FrontEndMonitor {
 
 	/**
 	 * 处理异常信息初始化
+	 * @public
 	 * @param {*} options
+	 * @return void
 	 */
 	init(options) {
 		options = options || {}
@@ -36,37 +41,36 @@ class FrontEndMonitor {
 		let param = { reportUrl, extendsInfo, reportMethod }
 
 		if (this.jsError) {
-			new JsError(param).handleError()
+			new JsError(param).handleRegisterErrorCaptureEvents()
 		}
 		if (this.promiseError) {
-			new PromiseError(param).handleError()
+			new PromiseError(param).handleRegisterErrorCaptureEvents()
 		}
 		if (this.resourceError) {
-			new ResourceError(param).handleError()
+			new ResourceError(param).handleRegisterErrorCaptureEvents()
 		}
 		if (this.consoleError) {
-			new ConsoleError(param).handleError()
+			new ConsoleError(param).handleRegisterErrorCaptureEvents()
 		}
 		if (this.vueError && options.vue) {
-			new VueError(param).handleError(options.vue)
+			new VueError(param).handleRegisterErrorCaptureEvents(options.vue)
 		}
 	}
 
 	/**
 	 * 监听页面性能
-	 * @param {*} options {pageId：页面标示, url：上报地址, reportMethod: 上报方式}
+	 * @public
+	 * @param {*} options
+	 * @return void
 	 */
 	monitorPerformance(options) {
 		options = options || {}
-		console.log('options: ', options);
 		// 网络状态监控
 		new MonitorNetworkSpeed(options).reportNetworkSpeed()
 		// 页面性能监控
-		let recordFunc = () => {
-			new MonitorPerformance(options).record()
-		}
+		let recordFunc = () => new MonitorPerformance(options).record()
 		window.removeEventListener('unload', recordFunc)
-		window.addEventListener('unload', recordFunc)
+		window.addEventListener('load', recordFunc)
 	}
 }
 

@@ -4,14 +4,20 @@ import { ErrorCategoryEnum, ErrorLevelEnum } from '../base/baseConfig.js'
  * 资源加载错误
  */
 class ResourceError extends BaseMonitor {
+	/**
+	 * @constructor
+	 * @param {object} params
+	 */
 	constructor(params) {
 		super(params)
 	}
-
+	
 	/**
-	 * 注册onerror事件
+	 * 注册错误捕获事件
+	 * @public
+	 * @return void
 	 */
-	handleError() {
+	handleRegisterErrorCaptureEvents() {
 		window.addEventListener(
 			'error',
 			event => {

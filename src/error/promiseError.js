@@ -6,15 +6,20 @@ import { ErrorCategoryEnum, ErrorLevelEnum } from '../base/baseConfig.js'
  */
 
 class PromiseError extends BaseMonitor {
+	/**
+	 * @constructor
+	 * @param {object} params
+	 */
 	constructor(params) {
 		super(params)
 	}
 
-	process
 	/**
-	 * 处理错误
+	 * 注册错误捕获事件
+	 * @public
+	 * @return void
 	 */
-	handleError() {
+	handleRegisterErrorCaptureEvents() {
 		window.addEventListener(
 			'unhandledrejection',
 			event => {
@@ -39,15 +44,15 @@ class PromiseError extends BaseMonitor {
 					this.msg = message || event.reason
 					this.url = errorPosition
 					this.stack = stack
-					
+
 					this.recordError()
 				} catch (error) {
 					console.log(error)
 				}
+				event.preventDefault()
 			},
 			true
 		)
-		// event.preventDefault()
 	}
 }
 export default PromiseError

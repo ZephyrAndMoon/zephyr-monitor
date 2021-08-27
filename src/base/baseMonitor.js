@@ -9,8 +9,10 @@ const taskQueue = new TaskQueue()
 class BaseMonitor {
 	/**
 	 * @constructor
-	 *
-	 * @param {object} params { reportUrl,extendsInfo }
+	 * @param {object} params 初始化参数
+	 * @param {string} params.reportUrl 上报路径
+	 * @param {object} params.extendsInfo 扩展信息
+	 * @param {object} params.reportMethod 上报方式
 	 */
 	constructor({ reportUrl, extendsInfo, reportMethod }) {
 		this.category = ErrorCategoryEnum.UNKNOWN_ERROR //错误类型
@@ -30,8 +32,8 @@ class BaseMonitor {
 
 	/**
 	 * 记录错误信息
-	 *
 	 * @public
+	 * @return void
 	 */
 	recordError() {
 		this._handleRecordError()
@@ -42,9 +44,9 @@ class BaseMonitor {
 	}
 
 	/**
-	 * 处理错误日志
-	 *
+	 * 记录错误日志
 	 * @private
+	 * @return void
 	 */
 	_handleRecordError() {
 		try {
@@ -62,9 +64,7 @@ class BaseMonitor {
 				return
 			}
 			let errorInfo = this._handleErrorInfo()
-
 			console.log("\nIt's " + this.category, errorInfo)
-
 			//记录日志
 			taskQueue.add(this.reportUrl, this.reportMethod, errorInfo)
 		} catch (error) {
@@ -74,8 +74,8 @@ class BaseMonitor {
 
 	/**
 	 * 处理错误信息
-	 *
 	 * @private
+	 * @return {object} 错误信息对象
 	 */
 	_handleErrorInfo() {
 		let logInfo = {
@@ -108,8 +108,8 @@ class BaseMonitor {
 
 	/**
 	 * 获取扩展信息
-	 *
 	 * @private
+	 * @return {object} 扩展信息对象
 	 */
 	_getExtendsInfo() {
 		try {
@@ -139,8 +139,8 @@ class BaseMonitor {
 
 	/**
 	 * 获取设备信息
-	 *
 	 * @private
+	 * @return {object} 设备信息对象
 	 */
 	_getDeviceInfo() {
 		try {

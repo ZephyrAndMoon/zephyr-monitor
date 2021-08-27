@@ -2,6 +2,11 @@
  * 页面监控
  */
 const pagePerformance = {
+	/**
+	 * 获取性能时间节点信息
+	 * @public
+	 * @return {object} 性能时间节点信息对象
+	 */
 	getTiming() {
 		try {
 			if (!window.performance || !window.performance.getEntriesByType) {
@@ -81,6 +86,11 @@ const pagePerformance = {
 		}
 	},
 
+	/**
+	 * 获取所需资源时间节点信息
+	 * @public
+	 * @return {array} 资源时间节点信息数组
+	 */
 	getEntries(usefulType) {
 		usefulType = usefulType || []
 		if (!window.performance || !window.performance.getEntries) {
@@ -92,7 +102,7 @@ const pagePerformance = {
 		if (!entryList || entryList.length == 0) {
 			return entryTimesList
 		}
-		entryList.forEach((item, index) => {
+		entryList.forEach(item => {
 			let templeObj = {}
 			if (usefulType.indexOf(item.initiatorType) > -1) {
 				//请求资源路径

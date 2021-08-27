@@ -11,10 +11,11 @@ class TaskQueue {
 
 	/**
 	 * 添加上报信息
-	 *
 	 * @public
 	 * @param {string} reportUrl 上报的地址
+	 * @param {object} reportMethod 上报方式对象
 	 * @param {object} data 上报的数据
+	 * @return void
 	 */
 	add(reportUrl, reportMethod, data) {
 		this.queues.push({ reportUrl, reportMethod, data })
@@ -22,8 +23,8 @@ class TaskQueue {
 
 	/**
 	 * 上报
-	 *
 	 * @public
+	 * @return void
 	 */
 	fire() {
 		if (this.queues.length === 0) {

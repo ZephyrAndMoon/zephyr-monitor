@@ -5,12 +5,17 @@ import API from '../base/api'
 
 // 网速检测
 class MonitorNetworkSpeed extends BaseMonitor {
+	/**
+	 * @constructor
+	 * @param {object} options
+	 */
 	constructor(options) {
 		super(options || {})
 		this.category = ErrorCategoryEnum.NETWORK_SPEED
 		this.pageId = options.pageId || ''
 		this.url = options.url || ''
 		this.reportMethod = options.reportMethod || {}
+
 		this.timeInterval = 60 * 1000
 		this.downloadSize = 255438
 		this.filePath =
@@ -22,6 +27,7 @@ class MonitorNetworkSpeed extends BaseMonitor {
 	/**
 	 * 上报网络速度
 	 * @public
+	 * @return void
 	 */
 	reportNetworkSpeed() {
 		this._getSpeed()
@@ -34,6 +40,7 @@ class MonitorNetworkSpeed extends BaseMonitor {
 	/**
 	 * 获取当前时间
 	 * @private
+	 * @return {number} 时间戳
 	 */
 	_now() {
 		return (
@@ -49,6 +56,7 @@ class MonitorNetworkSpeed extends BaseMonitor {
 	/**
 	 * 通过XHR获取网速
 	 * @private
+	 * @return void
 	 */
 	_getSpeed() {
 		try {
@@ -93,6 +101,7 @@ class MonitorNetworkSpeed extends BaseMonitor {
 	/**
 	 * 通过Img获取网速
 	 * @private
+	 * @return void
 	 */
 	_getSpeedByImg() {
 		let img = new Image()
@@ -107,6 +116,7 @@ class MonitorNetworkSpeed extends BaseMonitor {
 	/**
 	 * 计算速度
 	 * @private
+	 * @return {object} { speedKbps:千比特每秒, speedMbps:比特每秒 }
 	 */
 	_calcSpeed() {
 		let duration = (this.endTime - this.startTime) / 1000

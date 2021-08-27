@@ -6,14 +6,20 @@ import { ErrorCategoryEnum, ErrorLevelEnum } from '../base/baseConfig.js'
  * vue错误
  */
 class VueError extends BaseMonitor {
+	/**
+	 * @constructor
+	 * @param {object} params
+	 */
 	constructor(params) {
 		super(params)
 	}
 
 	/**
-	 * 处理Vue错误提示
+	 * 注册错误捕获事件
+	 * @public
+	 * @return void
 	 */
-	handleError(Vue) {
+	handleRegisterErrorCaptureEvents(Vue) {
 		if (!Vue) {
 			return
 		}

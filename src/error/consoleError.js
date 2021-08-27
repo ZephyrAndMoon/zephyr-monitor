@@ -4,14 +4,19 @@ import { ErrorCategoryEnum, ErrorLevelEnum } from '../base/baseConfig.js'
  * console.error异常
  */
 class ConsoleError extends BaseMonitor {
+	/**
+	 * @constructor
+	 * @param {object} params
+	 */
 	constructor(params) {
 		super(params)
 	}
-
 	/**
-	 * 处理console事件
+	 * 注册错误捕获事件
+	 * @public
+	 * @return void
 	 */
-	handleError() {
+	handleRegisterErrorCaptureEvents() {
 		this.registerInfo()
 		this.registerWarn()
 		this.registerError()
@@ -19,6 +24,8 @@ class ConsoleError extends BaseMonitor {
 
 	/**
 	 * 处理信息
+	 * @private
+	 * @return void
 	 */
 	registerInfo() {
 		let t = this
@@ -33,6 +40,8 @@ class ConsoleError extends BaseMonitor {
 
 	/**
 	 * 处理警告
+	 * @private
+	 * @return void
 	 */
 	registerWarn() {
 		let t = this
@@ -47,6 +56,8 @@ class ConsoleError extends BaseMonitor {
 
 	/**
 	 * 处理错误
+	 * @private
+	 * @return void
 	 */
 	registerError() {
 		let t = this
@@ -60,7 +71,12 @@ class ConsoleError extends BaseMonitor {
 	}
 
 	/**
-	 * 处理日志
+	 * 处理警告
+	 * @private
+	 * @param {string} level 错误等级
+	 * @param {string} category 错误类别
+	 * @param {*} args 其他参数
+	 * @return void
 	 */
 	handleLog(level, category, args) {
 		try {
@@ -84,8 +100,8 @@ class ConsoleError extends BaseMonitor {
 	if (!window.console) {
 		window.console = {}
 	}
-	let funcs = ['tInfo', 'tWarn', 'tError']
-	funcs.forEach((func, index) => {
+	let funcTypes = ['tInfo', 'tWarn', 'tError']
+	funcTypes.forEach(func => {
 		if (!console[func]) {
 			console[func] = function () {}
 		}

@@ -4,14 +4,20 @@ import { ErrorCategoryEnum, ErrorLevelEnum } from '../base/baseConfig.js'
  * 捕获JS错误
  */
 class JSError extends BaseMonitor {
+	/**
+	 * @constructor
+	 * @param {object} params
+	 */
 	constructor(params) {
 		super(params)
 	}
 
 	/**
-	 * 注册onerror事件
+	 * 注册错误捕获事件
+	 * @public
+	 * @return void
 	 */
-	handleError() {
+	handleRegisterErrorCaptureEvents() {
 		window.onerror = (msg, url, line, col, error) => {
 			try {
 				this.level = ErrorLevelEnum.WARN
