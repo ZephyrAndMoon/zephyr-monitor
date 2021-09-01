@@ -10,6 +10,10 @@ module.exports = {
         ecmaVersion: 12
     },
     rules: {
-        'no-console': 'off'
+        'no-console': 'off',
+        'no-extend-native': 'off',
+        'no-underscore-dangle': 'off',
+        'no-restricted-globals': 'off',
+        'class-methods-use-this': 'off'
     }
 }
