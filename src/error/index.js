@@ -1,7 +1,7 @@
-import ConsoleError from './consoleError.js'
-import JsError from './jsError.js'
-import PromiseError from './promiseError.js'
-import ResourceError from './resourceError.js'
-import VueError from './vueError.js'
+import ConsoleError from './consoleError'
+import JsError from './jsError'
+import PromiseError from './promiseError'
+import ResourceError from './resourceError'
+import VueError from './vueError'
 
 export { ConsoleError, JsError, PromiseError, ResourceError, VueError }

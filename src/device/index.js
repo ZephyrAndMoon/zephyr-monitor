@@ -1,2 +1,3 @@
-import DeviceInfo from './device.js'
+import DeviceInfo from './device'
+
 export default DeviceInfo
