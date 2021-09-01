@@ -1,59 +1,69 @@
 {
-  "name": "front-end-monitor",
-  "version": "1.0.0",
-  "description": "前端异常监控、vue异常监控、js异常监控、页面性能监控、设备信息采集",
-  "keywords": [
-    "前端异常监控",
-    "vue异常监控",
-    "js异常监控",
-    "页面性能监控",
-    "设备信息采集"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/Jameszws/monitorjs_horse"
-  },
-  "main": "./dist/monitorjs.min.js",
-  "scripts": {
-    "build": "node ./config/webpack.build.js",
-    "test": "concurrently \"cd ./example && npm run start\" \"cd ./example && npm run serve\" ",
-    "prepare": "husky install"
-  },
-  "lint-staged": {
-    "*.{js}": "eslint --fix"
-  },
-  "author": "zephyr",
-  "license": "ISC",
-  "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^4.29.3",
-    "@typescript-eslint/parser": "^4.29.3",
-    "babel-core": "^6.26.0",
-    "babel-loader": "^7.1.2",
-    "babel-plugin-component": "^1.1.1",
-    "babel-plugin-transform-runtime": "^6.23.0",
-    "babel-polyfill": "^6.26.0",
-    "babel-preset-es2015": "^6.24.1",
-    "babel-preset-stage-0": "^6.24.1",
-    "babel-preset-stage-3": "^6.24.1",
-    "babel-runtime": "^6.26.0",
-    "clean-webpack-plugin": "^2.0.0",
-    "eslint": "^7.32.0",
-    "eslint-config-airbnb-base": "^14.2.1",
-    "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-import": "^2.24.2",
-    "eslint-plugin-prettier": "^4.0.0",
-    "eslint-plugin-vue": "^7.16.0",
-    "extract-text-webpack-plugin": "^3.0.1",
-    "husky": "^7.0.0",
-    "lint-staged": "^11.1.2",
-    "prettier": "^2.3.2",
-    "vue": "^2.6.10",
-    "webpack": "^3.5.6",
-    "webpack-dev-server": "^2.7.1",
-    "webpack-hot-middleware": "^2.19.0"
-  },
-  "dependencies": {
-    "axios": "^0.21.1",
-    "ua-device": "^0.1.10"
-  }
+    "name": "front-end-monitor",
+    "version": "1.0.0",
+    "description": "前端异常监控、vue异常监控、js异常监控、页面性能监控、设备信息采集",
+    "keywords": [
+        "前端异常监控",
+        "vue异常监控",
+        "js异常监控",
+        "页面性能监控",
+        "设备信息采集"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/ZephyrAndMoon/front-end-monitor"
+    },
+    "main": "./dist/ErrorMonitor.min.js",
+    "scripts": {
+        "build": "node ./config/webpack.build.js",
+        "commit": "git cz",
+        "test": "concurrently \"cd ./example && npm run start\" \"cd ./example && npm run serve\" "
+    },
+    "lint-staged": {
+        "*.{js}": "eslint --fix"
+    },
+    "config": {
+        "commitizen": {
+            "path": "./node_modules/cz-customizable"
+        }
+    },
+    "author": "zephyr",
+    "license": "ISC",
+    "devDependencies": {
+        "@commitlint/cli": "^13.1.0",
+        "@commitlint/config-conventional": "^13.1.0",
+        "@typescript-eslint/eslint-plugin": "^4.29.3",
+        "@typescript-eslint/parser": "^4.29.3",
+        "babel-core": "^6.26.0",
+        "babel-loader": "^7.1.2",
+        "babel-plugin-component": "^1.1.1",
+        "babel-plugin-transform-runtime": "^6.23.0",
+        "babel-polyfill": "^6.26.0",
+        "babel-preset-es2015": "^6.24.1",
+        "babel-preset-stage-0": "^6.24.1",
+        "babel-preset-stage-3": "^6.24.1",
+        "babel-runtime": "^6.26.0",
+        "clean-webpack-plugin": "^2.0.0",
+        "commitizen": "^4.2.4",
+        "cz-conventional-changelog": "^3.3.0",
+        "cz-customizable": "^6.3.0",
+        "eslint": "^7.32.0",
+        "eslint-config-airbnb-base": "^14.2.1",
+        "eslint-config-prettier": "^8.3.0",
+        "eslint-plugin-import": "^2.24.2",
+        "eslint-plugin-prettier": "^4.0.0",
+        "eslint-plugin-vue": "^7.16.0",
+        "extract-text-webpack-plugin": "^3.0.1",
+        "husky": "^7.0.0",
+        "lint-staged": "^11.1.2",
+        "prettier": "^2.3.2",
+        "vue": "^2.6.10",
+        "webpack": "^3.5.6",
+        "webpack-dev-server": "^2.7.1",
+        "webpack-hot-middleware": "^2.19.0"
+    },
+    "dependencies": {
+        "axios": "^0.21.1",
+        "ua-device": "^0.1.10"
+    }
 }
