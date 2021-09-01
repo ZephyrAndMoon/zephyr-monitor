@@ -1,4 +1,5 @@
-import FrontEndMonitor from './monitor.js'
-export { FrontEndMonitor }
+import FrontEndMonitor from './monitor'
+
+export default FrontEndMonitor
 
 window.FEMonitor = FrontEndMonitor
