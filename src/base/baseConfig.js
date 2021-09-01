@@ -1,79 +1,39 @@
 /**
  * 错误类型枚举
  */
-export class ErrorCategoryEnum {
-	// js 错误
-	static get JS_ERROR() {
-		return 'js_error'
-	}
-
-	// 资源引用错误
-	static get RESOURCE_ERROR() {
-		return 'resource_error'
-	}
-
-	// 跨域js错误
-	static get CROSS_SCRIPT_ERROR() {
-		return 'cross_script_error'
-	}
-
-	// vue 错误
-	static get VUE_ERROR() {
-		return 'vue_error'
-	}
-
-	// promise 错误
-	static get PROMISE_ERROR() {
-		return 'promise_error'
-	}
-
-	// 控制台错误 console.info
-	static get CONSOLE_INFO() {
-		return 'console_info'
-	}
-
-	// 控制台错误 console.warn
-	static get CONSOLE_WARN() {
-		return 'console_warn'
-	}
-
-	// 控制台错误 console.error
-	static get CONSOLE_ERROR() {
-		return 'console_error'
-	}
-
-	// 未知异常
-	static get UNKNOWN_ERROR() {
-		return 'unknown_error'
-	}
-
-	// 性能上报
-	static get PERFORMANCE() {
-		return 'performance'
-	}
-
-	// 网速上报
-	static get NETWORK_SPEED() {
-		return 'network_speed'
-	}
+export const ErrorCategoryEnum = {
+    // js 错误
+    JS_ERROR: 'js_error',
+    // 资源引用错误
+    RESOURCE_ERROR: 'resource_error',
+    // 跨域错误
+    CROSS_SCRIPT_ERROR: 'cross_script_error',
+    // Vue 错误
+    VUE_ERROR: 'vue_error',
+    // Promise 错误
+    PROMISE_ERROR: 'promise_error',
+    // 控制台错误 console.info
+    CONSOLE_INFO: 'console_info',
+    // 控制台错误 console_warn
+    CONSOLE_WARN: 'console_warn',
+    // 控制台错误 console_error
+    CONSOLE_ERROR: 'console_error',
+    // 未知异常
+    UNKNOWN_ERROR: 'unknown_error',
+    // 性能上报
+    PERFORMANCE: 'performance',
+    // 网速上报
+    NETWORK_SPEED: 'network_speed',
 }
 
 /**
  * 错误level枚举
  */
-export class ErrorLevelEnum {
-	// 错误信息
-	static get ERROR() {
-		return 'Error'
-	}
-
-	// 警告信息
-	static get WARN() {
-		return 'Warning'
-	}
-
-	// 日志信息
-	static get INFO() {
-		return 'Info'
-	}
+export const ErrorLevelEnum = {
+    // 错误信息
+    ERROR: 'Error',
+    // 警告信息
+    WARN: 'Warning',
+    // 日志信息
+    INFO: 'Info',
 }
