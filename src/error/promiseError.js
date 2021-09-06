@@ -15,27 +15,16 @@ class PromiseError extends BaseMonitor {
         window.addEventListener(
             'unhandledrejection',
             (event) => {
-                console.log(event)
                 try {
                     if (!event || !event.reason) {
                         return
                     }
                     const { message, stack } = event.reason
-                    const stackMatchInfo = /at(.*)/.exec(stack)
-                    const errorPosition = stackMatchInfo[1]
-
-                    if (errorPosition) {
-                        const { line, col, fileName } = utils.parseErrorPosition(errorPosition)
-                        this.line = line
-                        this.col = col
-                        this.sourcemapFileName = `${fileName}.map`
-                    }
                     this.level = ErrorLevelEnum.ERROR
                     this.category = ErrorCategoryEnum.PROMISE_ERROR
+                    this.url = utils.getErrorUrl(stack)
                     this.msg = message || event.reason
-                    this.url = errorPosition
                     this.stack = stack
-
                     this.recordError()
                 } catch (error) {
                     console.log(error)

@@ -19,11 +19,8 @@ class BaseMonitor {
         this.level = ErrorLevelEnum.INFO // 错误等级
         this.msg = {} // 错误信息
         this.url = '' // 错误信息地址
-        this.col = '' // 列数
-        this.line = '' // 行数
-        this.stack = '' // 错误堆栈
+        this.stack = [] // 错误堆栈
         this.otherErrorInfo = {} // 其他错误内容
-        this.sourcemapFileName = '' // 映射的sourcemap文件名
 
         this.reportUrl = reportUrl // 上报错误地址
         this.extendsInfo = extendsInfo // 扩展信息
@@ -77,20 +74,11 @@ class BaseMonitor {
      * @return {object} 错误信息对象
      */
     _handleErrorInfo() {
-        let logInfo = {
+        const logInfo = {
             url: this.url,
             errorInfo: this.msg,
             otherErrorInfo: this.otherErrorInfo,
-        }
-
-        if (this.stack) {
-            logInfo = {
-                ...logInfo,
-                col: this.col,
-                line: this.line,
-                stack: this.stack,
-                sourcemapFileName: this.sourcemapFileName,
-            }
+            stack: this.stack,
         }
         const deviceInfo = this._getDeviceInfo()
         const extendsInfo = this._getExtendsInfo()

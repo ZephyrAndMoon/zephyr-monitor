@@ -16,14 +16,13 @@ class JSError extends BaseMonitor {
                 this.category = ErrorCategoryEnum.JS_ERROR
                 this.msg = msg
                 this.url = url
-                this.line = line
-                this.col = col
                 this.errorObj = error
                 this.stack = error.stack
                 this.recordError()
             } catch (e) {
                 console.log('js错误异常', e)
             }
+            return true
         }
     }
 }

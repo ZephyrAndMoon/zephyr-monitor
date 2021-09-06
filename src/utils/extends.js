@@ -46,3 +46,12 @@ Date.prototype.format = (fmt) => {
     })
     return _fmt
 }
+
+Error.prepareStackTrace = (error, structuredStackTrace) => {
+    return structuredStackTrace.map((item) => ({
+        FILE_NAME: item.getFileName(),
+        FUNC_NAME: item.getFunctionName(),
+        COLUMN_NUMBER: item.getColumnNumber(),
+        LINE_NUMBER: item.getLineNumber(),
+    }))
+}

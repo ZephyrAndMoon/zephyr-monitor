@@ -27,8 +27,8 @@ class ResourceError extends BaseMonitor {
                     }
                     this.level = ErrorLevelEnum.ERROR
                     this.category = ErrorCategoryEnum.RESOURCE_ERROR
-                    this.msg = `加载 ${target.tagName} 资源错误`
                     this.url = target.src || target.href
+                    this.msg = `加载 ${target.tagName} 资源错误`
                     this.recordError()
                 } catch (error) {
                     console.log('资源加载收集异常', error)

@@ -72,13 +72,16 @@ export default {
     },
 
     /**
-     * 获取错误栈的行和列
-     * @param {string} stack
-     * @return {object} {line, col} 返回堆栈错误位置的行与列
+     * 获取报错位置（返回第一个错误的堆栈位置）
+     * @param {array} stack 错误堆栈
+     * @return {string} 组件信息
      */
-    parseErrorPosition(stack) {
-        const fileUrl = stack.slice(stack.lastIndexOf('/') + 1)
-        const [fileName, line, col] = fileUrl.split(':')
-        return { fileName, line, col }
+    getErrorUrl(stack = []) {
+        let i = 0
+        for (; i < stack.length; i += 1) {
+            const { FILE_NAME } = stack[i]
+            if (FILE_NAME) return FILE_NAME
+        }
+        return ''
     },
 }
