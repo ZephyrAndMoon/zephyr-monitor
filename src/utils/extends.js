@@ -7,7 +7,8 @@
  * (new Date()).format("yyyy-MM-dd EEE hh:mm:ss") ==> 2009-03-10 星期二 08:09:04
  * (new Date()).format("yyyy-M-d h:m:s.S") ==> 2006-7-2 8:9:4.18
  */
-Date.prototype.format = (fmt) => {
+// eslint-disable-next-line func-names
+Date.prototype.format = function (fmt) {
     let _fmt = fmt
     const o = {
         'M+': this.getMonth() + 1, // 月份
