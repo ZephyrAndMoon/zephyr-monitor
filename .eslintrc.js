@@ -8,6 +8,7 @@ module.exports = {
     extends: ['plugin:vue/essential', 'airbnb-base', 'plugin:prettier/recommended'],
     parserOptions: {
         ecmaVersion: 12,
+        sourceType: 'module',
     },
     rules: {
         'no-console': 'off',
@@ -15,5 +16,6 @@ module.exports = {
         'no-underscore-dangle': 'off',
         'no-restricted-globals': 'off',
         'class-methods-use-this': 'off',
+        'import/no-extraneous-dependencies': 'off',
     },
 }
