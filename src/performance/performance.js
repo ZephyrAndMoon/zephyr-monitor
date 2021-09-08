@@ -28,30 +28,32 @@ const pagePerformance = {
             times.redirectTime = (timing.redirectEnd - timing.redirectStart).toFixed(2)
 
             // 数据传输时间
-            times.reqTime = (timing.responseEnd - timing.responseStart).toFixed(2)
+            times.resTime = (timing.responseEnd - timing.responseStart).toFixed(2)
+
             // First Byte 时间
-            times.ttfbTime = (timing.responseStart - timing.navigationStart).toFixed(2)
+            times.ttfbTime = (timing.responseStart - timing.fetchStart).toFixed(2)
 
             // 白屏时间
-            times.blankTime = (timing.responseStart - timing.navigationStart).toFixed(2)
+            times.blankTime = (timing.responseStart - timing.fetchStart).toFixed(2)
 
             // 解析dom树耗时
             times.analysisTime = (timing.domComplete - timing.domInteractive).toFixed(2)
 
             // domReadyTime
-            times.domReadyTime = (timing.domContentLoadedEventEnd - timing.navigationStart).toFixed(
-                2,
-            )
+            times.domReadyTime = (timing.domContentLoadedEventEnd - timing.fetchStart).toFixed(2)
 
             // 首次可交互时间
-            times.firstInteractTime = (timing.domInteractive - timing.navigationStart).toFixed(2)
+            times.firstInteractTime = (timing.domInteractive - timing.fetchStart).toFixed(2)
 
             // 页面加载完成的时间
-            times.loadPageTime = (timing.loadEventStart - timing.navigationStart).toFixed(2)
+            times.loadPageTime = (timing.loadEventStart - timing.fetchStart).toFixed(2)
 
             // 卸载页面的时间
             times.unloadTime = (timing.unloadEventEnd - timing.unloadEventStart).toFixed(2)
 
+            Object.keys(times).forEach((time) => {
+                times[time] = `${times[time]}ms`
+            })
             return times
         } catch (e) {
             throw Error(e)
@@ -91,7 +93,7 @@ const pagePerformance = {
                 templeObj.ttfbTime = (item.responseStart - item.requestStart).toFixed(2)
                 // 接收响应的时间（从第一个字符到最后一个字符）
                 templeObj.responseTime = (item.responseEnd - item.responseStart).toFixed(2)
-                // 请求+响应总时间
+                // 请求 + 响应总时间
                 templeObj.reqTotalTime = (item.responseEnd - item.requestStart).toFixed(2)
                 entryTimesList.push(templeObj)
             }
