@@ -1,4 +1,3 @@
-import utils from '../utils/util'
 import DeviceInfo from '../device'
 import TaskQueue from './taskQueue'
 import { ErrorLevelEnum, ErrorCategoryEnum } from './baseConfig'
@@ -24,7 +23,7 @@ class BaseMonitor {
 
         this.reportUrl = reportUrl // 上报错误地址
         this.extendsInfo = extendsInfo // 扩展信息
-        this.reportMethod = reportMethod
+        this.reportMethod = reportMethod // 上报方式
     }
 
     /**
@@ -81,47 +80,16 @@ class BaseMonitor {
             stack: this.stack,
         }
         const deviceInfo = this._getDeviceInfo()
-        const extendsInfo = this._getExtendsInfo()
         const recordInfo = {
+            time: new Date().format('yyyy-MM-dd HH:mm:ss'),
             logType: this.level,
             category: this.category,
             logInfo: JSON.stringify(logInfo),
             deviceInfo: JSON.stringify(deviceInfo),
-            extendsInfo: JSON.stringify(extendsInfo),
+            extendsInfo: JSON.stringify(this.extendsInfo),
         }
-        console.log('recordInfo: ', recordInfo)
+        console.log('错误信息: ', recordInfo)
         return recordInfo
-    }
-
-    /**
-     * 获取扩展信息
-     * @private
-     * @return {object} 扩展信息对象
-     */
-    _getExtendsInfo() {
-        try {
-            const ret = {}
-            let extendsInfo = this.extendsInfo || {}
-            let dynamicParams
-            if (utils.isFunction(extendsInfo.getDynamic)) {
-                dynamicParams = extendsInfo.getDynamic() // 获取动态参数
-            }
-            // 判断动态方法返回的参数是否是对象
-            if (utils.isObject(dynamicParams)) {
-                extendsInfo = { ...extendsInfo, ...dynamicParams }
-            }
-            // 遍历扩展信息，排除动态方法
-            Object.keys(extendsInfo).forEach((key) => {
-                if (!utils.isFunction(extendsInfo[key])) {
-                    // 排除获取动态方法
-                    ret[key] = extendsInfo[key]
-                }
-            })
-            return ret
-        } catch (error) {
-            console.log('call _getExtendsInfo error', error)
-            return {}
-        }
     }
 
     /**
