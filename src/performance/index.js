@@ -10,18 +10,17 @@ class MonitorPerformance extends BaseMonitor {
      */
     constructor(options) {
         super(options || {})
-        this.isPage = !!options.isPage // 是否上报页面性能数据
-        this.isResource = !!options.isResource // 是否上报页面资源数据
-        this.usefulType = this._getSourceType(options)
-        this.outTime = 50
-        this.config = {
-            resourceList: [], // 资源列表
+        this.url = options.url || ''
+        this.pageId = options.pageId || ''
+        this.category = ErrorCategoryEnum.PERFORMANCE
+        this.reportMethod = options.reportMethod || {}
+        this.usePerf = !!options.usePerf // 是否上报页面性能数据
+        this.useResource = !!options.useResource // 是否上报页面资源数据
+        this.usefulResourceType = this._getResourceType(options.usefulResourceType)
+        this.performanceInfo = {
+            resource: [], // 资源列表
             performance: {}, // 页面性能列表
         }
-        this.category = ErrorCategoryEnum.PERFORMANCE
-        this.pageId = options.pageId || ''
-        this.url = options.url || ''
-        this.reportMethod = options.reportMethod || {}
     }
 
     /**
@@ -32,35 +31,34 @@ class MonitorPerformance extends BaseMonitor {
      */
     record() {
         try {
-            if (this.isPage) {
-                this.config.performance = pagePerformance.getTiming()
+            if (this.usePerf) {
+                this.performanceInfo.performance = pagePerformance.getTiming()
             }
-            if (this.isResource) {
-                this.config.resourceList = pagePerformance.getEntries(this.usefulType)
+            if (this.useResource) {
+                this.performanceInfo.resource = pagePerformance.getEntries(this.usefulResourceType)
             }
             const result = {
-                curTime: new Date().format('yyyy-MM-dd HH:mm:ss'),
-                performance: this.config.performance,
-                resourceList: this.config.resourceList,
+                pageId: this.pageId,
+                time: new Date().format('yyyy-MM-dd HH:mm:ss'),
+                performance: this.performanceInfo.performance,
+                resource: this.performanceInfo.resource,
                 markUser: this._generateMarkUser(),
                 markUv: this._generateMarkUv(),
-                pageId: this.pageId,
                 deviceInfo: this._getDeviceInfo(),
             }
-            const extendsInfo = this._getExtendsInfo()
             const data = {
-                ...extendsInfo,
+                ...this.extendsInfo,
                 category: this.category,
                 logType: ErrorLevelEnum.INFO,
                 logInfo: JSON.stringify(result),
             }
-            console.log('report data =', data)
+            console.log('性能监控信息：', data)
             sessionStorage.setItem('page_performance', JSON.stringify(data))
             // 发送监控数据
             new API(this.url, this.reportMethod).report(data)
             this._clearPerformance()
         } catch (error) {
-            console.log('性能信息上报异常：', error)
+            console.log('性能监控信息上报异常：', error)
         }
     }
 
@@ -70,15 +68,20 @@ class MonitorPerformance extends BaseMonitor {
      * @param {object} options 上报的数据
      * @return {array} 资源数据类型数组
      */
-    _getSourceType(options) {
-        const usefulType = [] // 'navigation'
-        if (options.isRScript) usefulType.push('script')
-        if (options.isRCSS) usefulType.push('css')
-        if (options.isRFetch) usefulType.push('fetch')
-        if (options.isRXHR) usefulType.push('xmlhttprequest')
-        if (options.isRLink) usefulType.push('link')
-        if (options.isRIMG) usefulType.push('img')
-        return usefulType
+    _getResourceType(typeList = {}) {
+        const hasOptions = Object.keys(typeList).length > 0
+        if (!hasOptions) {
+            return ['script', 'css', 'fetch', 'xmlhttprequest', 'link', 'img']
+        }
+        const { useRScript, useRCSS, useRFetch, useRXHR, useRLink, useRImg } = typeList
+        const usefulResourceType = [] // 'navigation'
+        if (useRScript) usefulResourceType.push('script')
+        if (useRCSS) usefulResourceType.push('css')
+        if (useRFetch) usefulResourceType.push('fetch')
+        if (useRXHR) usefulResourceType.push('xmlhttprequest')
+        if (useRLink) usefulResourceType.push('link')
+        if (useRImg) usefulResourceType.push('img')
+        return usefulResourceType
     }
 
     /**
@@ -138,8 +141,8 @@ class MonitorPerformance extends BaseMonitor {
     _clearPerformance() {
         if (window.performance && window.performance.clearResourceTimings) {
             performance.clearResourceTimings()
-            this.config.performance = {}
-            this.config.resourceList = ''
+            this.performanceInfo.performance = {}
+            this.performanceInfo.resource = []
         }
     }
 }

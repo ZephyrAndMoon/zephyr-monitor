@@ -65,7 +65,7 @@ const pagePerformance = {
      * @public
      * @return {array} 资源时间节点信息数组
      */
-    getEntries(usefulType = []) {
+    getEntries(usefulResourceType = []) {
         if (!window.performance || !window.performance.getEntries) {
             throw Error('该浏览器不支持performance.getEntries方法')
         }
@@ -76,7 +76,7 @@ const pagePerformance = {
         }
         entryList.forEach((item) => {
             const templeObj = {}
-            if (usefulType.indexOf(item.initiatorType) > -1) {
+            if (usefulResourceType.indexOf(item.initiatorType) > -1) {
                 // 请求资源路径
                 templeObj.name = item.name
                 // 发起资源类型

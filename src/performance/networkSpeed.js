@@ -15,12 +15,12 @@ class MonitorNetworkSpeed extends BaseMonitor {
         this.pageId = options.pageId || ''
         this.url = options.url || ''
         this.reportMethod = options.reportMethod || {}
+        this.timeInterval = options.timeInterval || 60 * 1000
 
-        this.timeInterval = 60 * 1000
-        this.downloadSize = 255438
-        this.filePath = 'https://file.40017.cn/tcservice/common/imags/network_speed.png'
         this.startTime = 0
         this.endTime = 0
+        this.downloadSize = 67185
+        this.filePath = 'https://markdowncun.oss-cn-beijing.aliyuncs.com/20210909211826.png'
     }
 
     /**
@@ -74,26 +74,25 @@ class MonitorNetworkSpeed extends BaseMonitor {
                         ((this.endTime - this.startTime) / 1000) /
                         1024
                     ).toFixed(2)
-                    const extendsInfo = this._getExtendsInfo()
                     const data = {
-                        ...extendsInfo,
+                        ...this.extendsInfo,
                         category: this.category,
                         logType: ErrorLevelEnum.INFO,
                         logInfo: JSON.stringify({
-                            curTime: new Date().format('yyyy-MM-dd HH:mm:ss'),
+                            time: new Date().format('yyyy-MM-dd HH:mm:ss'),
                             pageId: this.pageId,
                             networkSpeed: speed,
                             deviceInfo: this._getDeviceInfo(),
                         }),
                     }
-                    console.log("It's network_speed", data)
+                    console.log('网速测试信息：', data)
                     new API(this.url, this.reportMethod).report(data)
                 }
             }
             xhr.open('GET', `${this.filePath}?rand=${Math.random()}`, true)
             xhr.send()
         } catch (error) {
-            console.log('测试失败：', error)
+            console.log('网速测试失败：', error)
         }
     }
 
