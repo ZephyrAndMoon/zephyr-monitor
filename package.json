@@ -1,14 +1,8 @@
 {
     "name": "front-end-monitor",
     "version": "1.0.0",
-    "description": "前端异常监控、vue异常监控、js异常监控、页面性能监控、设备信息采集",
-    "keywords": [
-        "前端异常监控",
-        "vue异常监控",
-        "js异常监控",
-        "页面性能监控",
-        "设备信息采集"
-    ],
+    "description": "",
+    "keywords": [],
     "repository": {
         "type": "git",
         "url": "https://github.com/ZephyrAndMoon/front-end-monitor"
@@ -16,8 +10,7 @@
     "main": "./dist/FrontEndMonitor.min.js",
     "scripts": {
         "build": "node ./config/webpack.build.js",
-        "commit": "git cz",
-        "test": "concurrently \"cd ./example && npm run start\" \"cd ./example && npm run serve\" "
+        "commit": "git cz"
     },
     "lint-staged": {
         "*.{js}": "eslint --fix"
