@@ -21,13 +21,13 @@ class FrontEndMonitor {
      * @param {*} options
      * @return void
      */
-    init(options) {
+    static initError(options) {
         const _options = options || {}
-        this.vueError = _options.vueError
-        this.consoleError = _options.consoleError
-        this.jsError = !(_options.jsError === false)
-        this.promiseError = !(_options.promiseError === false)
-        this.resourceError = !(_options.resourceError === false)
+        this.vueError = _options.error.vue
+        this.consoleError = _options.error.console
+        this.jsError = !(_options.error.js === false)
+        this.promiseError = !(_options.error.promise === false)
+        this.resourceError = !(_options.error.resource === false)
 
         const reportUrl = _options.url
         const extendsInfo = _options.extendsInfo || {}
@@ -57,12 +57,14 @@ class FrontEndMonitor {
      * @param {*} options
      * @return void
      */
-    monitorPerformance(options) {
+    static initPerformance(options) {
         const _options = options || {}
         // 网络状态监控
-        new MonitorNetworkSpeed(_options).reportNetworkSpeed()
+        if (options.useNetworkSpeed) {
+            MonitorNetworkSpeed(_options).reportNetworkSpeed()
+        }
         // 页面性能监控
-        const recordFunc = () => new MonitorPerformance(_options).record()
+        const recordFunc = () => MonitorPerformance(_options).record()
         window.removeEventListener('unload', recordFunc)
         window.addEventListener('load', recordFunc)
     }

@@ -11,11 +11,10 @@ class MonitorPerformance extends BaseMonitor {
     constructor(options) {
         super(options || {})
         this.url = options.url || ''
-        this.pageId = options.pageId || ''
         this.category = ErrorCategoryEnum.PERFORMANCE
         this.reportMethod = options.reportMethod || {}
-        this.usePerf = !!options.usePerf // 是否上报页面性能数据
-        this.useResource = !!options.useResource // 是否上报页面资源数据
+        this.usePerf = !(options.usePerf === false) // 是否上报页面性能数据
+        this.useResource = !(options.useResource === false) // 是否上报页面资源数据
         this.usefulResourceType = this._getResourceType(options.usefulResourceType)
         this.performanceInfo = {
             resource: [], // 资源列表
@@ -29,7 +28,7 @@ class MonitorPerformance extends BaseMonitor {
      * @param {object} options { pageId ：页面标示, url ：上报地址 }
      * @return void
      */
-    record() {
+    static record() {
         try {
             if (this.usePerf) {
                 this.performanceInfo.performance = pagePerformance.getTiming()

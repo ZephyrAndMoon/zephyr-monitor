@@ -12,7 +12,6 @@ class MonitorNetworkSpeed extends BaseMonitor {
     constructor(options) {
         super(options || {})
         this.category = ErrorCategoryEnum.NETWORK_SPEED
-        this.pageId = options.pageId || ''
         this.url = options.url || ''
         this.reportMethod = options.reportMethod || {}
         this.timeInterval = options.timeInterval || 60 * 1000
@@ -28,7 +27,7 @@ class MonitorNetworkSpeed extends BaseMonitor {
      * @public
      * @return void
      */
-    reportNetworkSpeed() {
+    static reportNetworkSpeed() {
         this._getSpeed()
         // 定时上报
         setInterval(() => {
@@ -76,6 +75,7 @@ class MonitorNetworkSpeed extends BaseMonitor {
                     ).toFixed(2)
                     const data = {
                         ...this.extendsInfo,
+                        pageId: this.pageId,
                         category: this.category,
                         logType: ErrorLevelEnum.INFO,
                         logInfo: JSON.stringify({
@@ -85,7 +85,7 @@ class MonitorNetworkSpeed extends BaseMonitor {
                             deviceInfo: this._getDeviceInfo(),
                         }),
                     }
-                    console.log('网速测试信息：', data)
+                    console.log('网速信息：', data)
                     new API(this.url, this.reportMethod).report(data)
                 }
             }
