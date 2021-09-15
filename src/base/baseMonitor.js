@@ -13,7 +13,8 @@ class BaseMonitor {
      * @param {object} params.extendsInfo 扩展信息
      * @param {object} params.reportMethod 上报方式
      */
-    constructor({ reportUrl, extendsInfo, reportMethod }) {
+    constructor({ pageId, reportUrl, extendsInfo, reportMethod }) {
+        this.pageId = pageId || ''
         this.category = ErrorCategoryEnum.UNKNOWN_ERROR // 错误类型
         this.level = ErrorLevelEnum.INFO // 错误等级
         this.msg = {} // 错误信息
@@ -81,6 +82,7 @@ class BaseMonitor {
         }
         const deviceInfo = this._getDeviceInfo()
         const recordInfo = {
+            pageId: this.pageId,
             time: new Date().format('yyyy-MM-dd HH:mm:ss'),
             logType: this.level,
             category: this.category,
