@@ -1,5 +1,5 @@
-import FrontEndMonitor from './monitor'
+import ZephyrMonitor from './monitor'
 
-export default FrontEndMonitor
+export default ZephyrMonitor
 
-window.FEMonitor = FrontEndMonitor
+window.ZephyrMonitor = ZephyrMonitor

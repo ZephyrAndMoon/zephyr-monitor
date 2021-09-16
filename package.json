@@ -1,13 +1,13 @@
 {
-    "name": "front-end-monitor",
+    "name": "zephyr-monitor",
     "version": "1.0.0",
     "description": "",
     "keywords": [],
     "repository": {
         "type": "git",
-        "url": "https://github.com/ZephyrAndMoon/front-end-monitor"
+        "url": "https://github.com/ZephyrAndMoon/zephyr-monitor"
     },
-    "main": "./dist/FrontEndMonitor.min.js",
+    "main": "./dist/ZephyrMonitor.min.js",
     "scripts": {
         "build": "node ./config/webpack.build.js",
         "commit": "git cz"
