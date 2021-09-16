@@ -1,4 +1,4 @@
-import utils from '../utils/util'
+import { getErrorUrl } from '../utils/util'
 import BaseMonitor from '../base/baseMonitor'
 import { ErrorCategoryEnum, ErrorLevelEnum } from '../base/baseConfig'
 /**
@@ -22,7 +22,7 @@ class PromiseError extends BaseMonitor {
                     const { message, stack } = event.reason
                     this.level = ErrorLevelEnum.ERROR
                     this.category = ErrorCategoryEnum.PROMISE_ERROR
-                    this.url = utils.getErrorUrl(stack)
+                    this.url = getErrorUrl(stack)
                     this.msg = message || event.reason
                     this.stack = stack
                     this.recordError()

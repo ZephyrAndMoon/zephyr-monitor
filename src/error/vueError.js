@@ -1,4 +1,4 @@
-import utils from '../utils/util'
+import { formatComponentInfo, getErrorUrl } from '../utils/util'
 import BaseMonitor from '../base/baseMonitor'
 import { ErrorCategoryEnum, ErrorLevelEnum } from '../base/baseConfig'
 
@@ -21,13 +21,13 @@ class VueError extends BaseMonitor {
                 const { message, stack = [] } = error
                 if (Object.prototype.toString.call(vm) === '[object Object]') {
                     this.otherErrorInfo = {
-                        componentPosition: utils.formatComponentInfo(vm),
+                        componentPosition: formatComponentInfo(vm),
                         propsData: vm.$options.propsData,
                     }
                 }
                 this.level = ErrorLevelEnum.ERROR
                 this.category = ErrorCategoryEnum.VUE_ERROR
-                this.url = utils.getErrorUrl(stack)
+                this.url = getErrorUrl(stack)
                 this.msg = message
                 this.stack = stack
                 this.recordError()

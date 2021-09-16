@@ -1,9 +1,11 @@
 import { JsError, VueError, ConsoleError, PromiseError, ResourceError } from './error'
 import MonitorPerformance from './performance'
 import MonitorNetworkSpeed from './performance/networkSpeed'
+import { ValidateParameters } from './utils/util'
+import { INIT_ERROR_RULES, INIT_PERFORMANCE_RULES } from './utils/validateRules'
 import './utils/extends'
 
-class FrontEndMonitor {
+class ZephyrMonitor {
     /**
      * @constructor
      */
@@ -22,16 +24,18 @@ class FrontEndMonitor {
      * @return void
      */
     static initError(options) {
-        const _options = options || {}
-        this.vueError = _options.error.vue
-        this.consoleError = _options.error.console
-        this.jsError = !(_options.error.js === false)
-        this.promiseError = !(_options.error.promise === false)
-        this.resourceError = !(_options.error.resource === false)
+        // 校验初始化参数
+        if (!ValidateParameters(options, INIT_ERROR_RULES)) return
 
-        const reportUrl = _options.url
-        const extendsInfo = _options.extendsInfo || {}
-        const reportMethod = _options.reportMethod || {}
+        this.vueError = options.error.vue
+        this.consoleError = options.error.console
+        this.jsError = !(options.error.js === false)
+        this.promiseError = !(options.error.promise === false)
+        this.resourceError = !(options.error.resource === false)
+
+        const reportUrl = options.url
+        const extendsInfo = options.extendsInfo || {}
+        const reportMethod = options.reportMethod || {}
         const param = { reportUrl, extendsInfo, reportMethod }
 
         if (this.jsError) {
@@ -46,8 +50,8 @@ class FrontEndMonitor {
         if (this.consoleError) {
             new ConsoleError(param).handleRegisterErrorCaptureEvents()
         }
-        if (this.vueError && _options.vue) {
-            new VueError(param).handleRegisterErrorCaptureEvents(_options.vue)
+        if (this.vueError && options.vue) {
+            new VueError(param).handleRegisterErrorCaptureEvents(options.vue)
         }
     }
 
@@ -58,16 +62,18 @@ class FrontEndMonitor {
      * @return void
      */
     static initPerformance(options) {
-        const _options = options || {}
+        // 校验初始化参数
+        if (!ValidateParameters(options, INIT_PERFORMANCE_RULES)) return
+
         // 网络状态监控
         if (options.useNetworkSpeed) {
-            MonitorNetworkSpeed(_options).reportNetworkSpeed()
+            MonitorNetworkSpeed(options).reportNetworkSpeed()
         }
         // 页面性能监控
-        const recordFunc = () => MonitorPerformance(_options).record()
+        const recordFunc = () => MonitorPerformance(options).record()
         window.removeEventListener('unload', recordFunc)
         window.addEventListener('load', recordFunc)
     }
 }
 
-export default FrontEndMonitor
+export default ZephyrMonitor

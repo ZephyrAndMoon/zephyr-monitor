@@ -1,4 +1,4 @@
-const UA = require('ua-device')
+import UA from 'ua-device'
 
 const DeviceInfo = (() => {
     const root = typeof self !== 'undefined' ? self : this
