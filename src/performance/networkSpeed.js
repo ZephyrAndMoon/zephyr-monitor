@@ -82,7 +82,7 @@ class MonitorNetworkSpeed extends BaseMonitor {
                         networkSpeed: speed,
                         deviceInfo: JSON.stringify(this._getDeviceInfo()),
                     }
-                    console.info('[ZephyrMonitor Info]: NetSpeed Info：', data)
+                    console.info('[ZephyrMonitor Info]: NetSpeed info', data)
                     new API(this.url, this.reportMethod).report(data)
                 }
             }

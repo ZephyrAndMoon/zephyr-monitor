@@ -20,12 +20,11 @@ class API {
     report(data) {
         if (!this._checkUrl(this.url)) {
             console.error(
-                '[ZephyrMonitor Error]: The url address is not in the correct format,url=',
+                '[ZephyrMonitor Error]: The url address is not in the correct format',
                 this.url,
             )
             return
         }
-        console.info(`[ZephyrMonitor Info]: Url for reporting - ${this.url}`)
         const { useImg, useFetch, useBeacon } = this.reportMethod
         if (useImg) {
             this._sendInfoByImg(data) // 图片上报数据
