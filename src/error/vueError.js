@@ -25,14 +25,14 @@ class VueError extends BaseMonitor {
                         propsData: vm.$options.propsData,
                     }
                 }
-                this.level = ErrorLevelEnum.ERROR
+                this.logType = ErrorLevelEnum.ERROR
                 this.category = ErrorCategoryEnum.VUE_ERROR
                 this.url = getErrorUrl(stack)
                 this.msg = message
                 this.stack = stack
                 this.recordError()
             } catch (e) {
-                console.log('vue错误异常', e)
+                console.error('[ZephyrMonitor Error]: Catching "vue_error" error exceptions', e)
             }
         }
     }

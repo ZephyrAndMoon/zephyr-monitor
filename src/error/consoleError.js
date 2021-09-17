@@ -54,21 +54,21 @@ class ConsoleError extends BaseMonitor {
     /**
      * 处理警告
      * @private
-     * @param {string} level 错误等级
+     * @param {string} type 信息类别
      * @param {string} category 错误类别
      * @param {*} args 其他参数
      * @return void
      */
-    handleLog(level, category, args) {
+    handleLog(type, category, args) {
         try {
-            this.level = level
+            this.logType = type
             const params = [...args]
             this.msg = params.join('\r\n') // 换行符分割
             this.url = location.href // 当前地址
             this.category = category
             this.recordError()
         } catch (error) {
-            console.log('console统计错误异常', level, error)
+            console.error('[ZephyrMonitor Error]: Console handling error exception', type, error)
         }
     }
 }

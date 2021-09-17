@@ -12,7 +12,7 @@ class JSError extends BaseMonitor {
     handleRegisterErrorCaptureEvents() {
         window.onerror = (msg, url, line, col, error) => {
             try {
-                this.level = ErrorLevelEnum.WARN
+                this.logType = ErrorLevelEnum.ERROR
                 this.category = ErrorCategoryEnum.JS_ERROR
                 this.msg = msg
                 this.url = url
@@ -20,7 +20,7 @@ class JSError extends BaseMonitor {
                 this.stack = error.stack
                 this.recordError()
             } catch (e) {
-                console.log('js错误异常', e)
+                console.error('[ZephyrMonitor Error]: Catching "js_error" error exceptions', e)
             }
             return true
         }

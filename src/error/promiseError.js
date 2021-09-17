@@ -20,14 +20,17 @@ class PromiseError extends BaseMonitor {
                         return
                     }
                     const { message, stack } = event.reason
-                    this.level = ErrorLevelEnum.ERROR
+                    this.logType = ErrorLevelEnum.ERROR
                     this.category = ErrorCategoryEnum.PROMISE_ERROR
                     this.url = getErrorUrl(stack)
                     this.msg = message || event.reason
                     this.stack = stack
                     this.recordError()
-                } catch (error) {
-                    console.log(error)
+                } catch (e) {
+                    console.error(
+                        '[ZephyrMonitor Error]: Catching "promise_error" error exceptions',
+                        e,
+                    )
                 }
                 event.preventDefault()
             },
