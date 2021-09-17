@@ -51,7 +51,7 @@ const ZephyrMonitor = require("zephyr-monitor");
 ```javascript
 // 错误监控初始化代码
 ZephyrMonitor.initError({
- 	pageId:"",  // 页面标示
+    pageId:"",  // 页面标示
     url:"", // 上报地址
 });
 
@@ -60,7 +60,7 @@ ZephyrMonitor.initError({
 ZephyrMonitor.initPerformance({
     pageId:"",  // 页面标示
     url:"",  // 上报地址
-  	useNetworkSpeed:true, // 是否定时间隔上报网速情况 默认为false
+    useNetworkSpeed:true, // 是否定时间隔上报网速情况 默认为false
 });
 ```
 
