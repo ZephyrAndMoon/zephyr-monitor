@@ -27,7 +27,7 @@ class MonitorNetworkSpeed extends BaseMonitor {
      * @public
      * @return void
      */
-    static reportNetworkSpeed() {
+    reportNetworkSpeed() {
         this._getSpeed()
         // 定时上报
         setInterval(() => {
@@ -75,24 +75,21 @@ class MonitorNetworkSpeed extends BaseMonitor {
                     ).toFixed(2)
                     const data = {
                         ...this.extendsInfo,
+                        time: new Date().format('yyyy-MM-dd HH:mm:ss'),
                         pageId: this.pageId,
                         category: this.category,
                         logType: ErrorLevelEnum.INFO,
-                        logInfo: JSON.stringify({
-                            time: new Date().format('yyyy-MM-dd HH:mm:ss'),
-                            pageId: this.pageId,
-                            networkSpeed: speed,
-                            deviceInfo: this._getDeviceInfo(),
-                        }),
+                        networkSpeed: speed,
+                        deviceInfo: JSON.stringify(this._getDeviceInfo()),
                     }
-                    console.log('网速信息：', data)
+                    console.info('[ZephyrMonitor Info]: NetSpeed Info：', data)
                     new API(this.url, this.reportMethod).report(data)
                 }
             }
             xhr.open('GET', `${this.filePath}?rand=${Math.random()}`, true)
             xhr.send()
-        } catch (error) {
-            console.log('网速测试失败：', error)
+        } catch (e) {
+            console.error('[ZephyrMonitor Error]: Internet speed test failed', e)
         }
     }
 

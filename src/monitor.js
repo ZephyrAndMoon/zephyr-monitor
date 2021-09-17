@@ -64,13 +64,12 @@ class ZephyrMonitor {
     static initPerformance(options) {
         // 校验初始化参数
         if (!ValidateParameters(options, INIT_PERFORMANCE_RULES)) return
-
         // 网络状态监控
         if (options.useNetworkSpeed) {
-            MonitorNetworkSpeed(options).reportNetworkSpeed()
+            new MonitorNetworkSpeed(options).reportNetworkSpeed()
         }
         // 页面性能监控
-        const recordFunc = () => MonitorPerformance(options).record()
+        const recordFunc = () => new MonitorPerformance(options).record()
         window.removeEventListener('unload', recordFunc)
         window.addEventListener('load', recordFunc)
     }

@@ -25,10 +25,10 @@ class MonitorPerformance extends BaseMonitor {
     /**
      * 记录页面信息
      * @private
-     * @param {object} options { pageId ：页面标示, url ：上报地址 }
+     * @param {object} options
      * @return void
      */
-    static record() {
+    record() {
         try {
             if (this.usePerf) {
                 this.performanceInfo.performance = pagePerformance.getTiming()
@@ -51,13 +51,13 @@ class MonitorPerformance extends BaseMonitor {
                 logType: ErrorLevelEnum.INFO,
                 logInfo: JSON.stringify(result),
             }
-            console.log('性能监控信息：', data)
+            console.info('[ZephyrMonitor Info]: Performance info', data)
             sessionStorage.setItem('page_performance', JSON.stringify(data))
             // 发送监控数据
             new API(this.url, this.reportMethod).report(data)
             this._clearPerformance()
-        } catch (error) {
-            console.log('性能监控信息上报异常：', error)
+        } catch (e) {
+            console.error('[ZephyrMonitor Error]: Performance information reporting exception', e)
         }
     }
 
