@@ -33,10 +33,11 @@ class ZephyrMonitor {
         this.promiseError = !(options.error.promise === false)
         this.resourceError = !(options.error.resource === false)
 
+        const pageId = options.pageId || ''
         const reportUrl = options.url
         const extendsInfo = options.extendsInfo || {}
         const reportMethod = options.reportMethod || {}
-        const param = { reportUrl, extendsInfo, reportMethod }
+        const param = { pageId, reportUrl, extendsInfo, reportMethod }
 
         if (this.jsError) {
             new JsError(param).handleRegisterErrorCaptureEvents()
