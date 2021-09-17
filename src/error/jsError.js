@@ -17,7 +17,7 @@ class JSError extends BaseMonitor {
                 this.msg = msg
                 this.url = url
                 this.errorObj = error
-                this.stack = error.stack
+                this.stack = error && error.stack
                 this.recordError()
             } catch (e) {
                 console.error('[ZephyrMonitor Error]: Catching "js_error" error exceptions', e)

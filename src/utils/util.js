@@ -39,7 +39,13 @@ const getErrorUrl = (stack = []) => {
     return ''
 }
 
-const ValidateParameters = (data = {}, validateRules = []) => {
+/**
+ * 获取报错位置（返回第一个错误的堆栈位置）
+ * @param {object} data 校验对象
+ * @param {array} validateRules 校验规则数组
+ * @return {boolean} 是否通过校验
+ */
+const validateParameters = (data = {}, validateRules = []) => {
     for (let i = 0; i < validateRules.length; i += 1) {
         const rule = validateRules[i]
         // 先判断是否为必须参数
@@ -62,4 +68,12 @@ const ValidateParameters = (data = {}, validateRules = []) => {
     return true
 }
 
-export { judgeType, formatComponentInfo, getErrorUrl, ValidateParameters }
+/**
+ * 给 script 标签加上跨域属性
+ * @return {void}
+ */
+const useCrossorigin = () => {
+    document.querySelectorAll('script').forEach((dom) => dom.setAttribute('crossorigin', true))
+}
+
+export { judgeType, formatComponentInfo, getErrorUrl, validateParameters, useCrossorigin }

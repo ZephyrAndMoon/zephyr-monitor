@@ -1,7 +1,7 @@
 import { JsError, VueError, ConsoleError, PromiseError, ResourceError } from './error'
 import MonitorPerformance from './performance'
 import MonitorNetworkSpeed from './performance/networkSpeed'
-import { ValidateParameters } from './utils/util'
+import { validateParameters, useCrossorigin } from './utils/util'
 import { INIT_ERROR_RULES, INIT_PERFORMANCE_RULES } from './utils/validateRules'
 import './utils/extends'
 
@@ -25,7 +25,9 @@ class ZephyrMonitor {
      */
     static initError(options) {
         // 校验初始化参数
-        if (!ValidateParameters(options, INIT_ERROR_RULES)) return
+        if (!validateParameters(options, INIT_ERROR_RULES)) return
+
+        if (options.useCrossorigin) useCrossorigin()
 
         this.vueError = options.error.vue
         this.consoleError = options.error.console
@@ -64,7 +66,7 @@ class ZephyrMonitor {
      */
     static initPerformance(options) {
         // 校验初始化参数
-        if (!ValidateParameters(options, INIT_PERFORMANCE_RULES)) return
+        if (!validateParameters(options, INIT_PERFORMANCE_RULES)) return
         // 网络状态监控
         if (options.useNetworkSpeed) {
             new MonitorNetworkSpeed(options).reportNetworkSpeed()

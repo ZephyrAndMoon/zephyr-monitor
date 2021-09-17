@@ -24,7 +24,7 @@ git clone git@github.com:ZephyrAndMoon/zephyr-monitor.git
 npm install / cnpm install / yarn install
 
 npm run build
-# 打包文件会输出为 dist/FrontEndMonitor.min.js 
+# 打包文件会输出为 dist/ZephyrMonitor.min.js 
 ```
 
 <br />
@@ -132,6 +132,12 @@ ZephyrMonitor.initPerformance({
   类型：`String`（必须）
 
   介绍：错误上报地址
+
+- **useCrossorigin**
+
+  类型：`Boolean`
+
+  介绍：是否开启远程 JavaScript 文件中报错的错误信息定位
 
 - **usePerf**
 
