@@ -555,17 +555,19 @@ const DeviceInfo = (() => {
                     deviceInfo: deviceUaInfo.device, // 设备信息
                     browserInfo: {
                         name: deviceUaInfo.browser.name,
-                        version: deviceUaInfo.browser.version?.original,
+                        version:
+                            deviceUaInfo.browser.version && deviceUaInfo.browser.version.original,
                     }, // 浏览器信息
                     engineInfo: {
                         name: deviceUaInfo.engine.name,
-                        version: deviceUaInfo.engine.version?.original,
+                        version:
+                            deviceUaInfo.engine.version && deviceUaInfo.engine.version.original,
                     }, // 引擎信息
                     // OS: MethodLibrary.getOS(), // 操作系统
                     // OSVersion: MethodLibrary.getOSVersion(), // 操作系统版本
                     OSInfo: {
                         name: deviceUaInfo.os.name,
-                        version: deviceUaInfo.os.version?.original,
+                        version: deviceUaInfo.os.version && deviceUaInfo.os.version.original,
                     }, // 操作系统信息
                     screenWidth: _window.screen.width, // 屏幕宽
                     screenHeight: _window.screen.height, // 屏幕高
