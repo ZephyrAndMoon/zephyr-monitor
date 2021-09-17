@@ -15,6 +15,7 @@ const INIT_PERFORMANCE_RULES = [
     { filed: 'reportMethod', type: 'Object' },
     { filed: 'useNetworkSpeed', type: 'Boolean' },
     { filed: 'usefulResourceType', type: 'Array' },
+    { filed: 'timeInterval', type: 'Number' },
 ]
 
 export { INIT_ERROR_RULES, INIT_PERFORMANCE_RULES }
