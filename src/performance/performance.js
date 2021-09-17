@@ -10,7 +10,8 @@ const pagePerformance = {
     getTiming() {
         try {
             if (!window.performance || !window.performance.getEntriesByType) {
-                throw Error('你的浏览器不支持 performance 操作')
+                console.warn('[ZephyrMonitor Warn]: Browser does not support performance')
+                return {}
             }
             const timing = window.performance.getEntriesByType('navigation')[0]
 
@@ -36,7 +37,7 @@ const pagePerformance = {
             // 白屏时间
             times.blankTime = (timing.responseStart - timing.fetchStart).toFixed(2)
 
-            // 解析dom树耗时
+            // 解析 dom 树耗时
             times.analysisTime = (timing.domComplete - timing.domInteractive).toFixed(2)
 
             // domReadyTime
@@ -56,7 +57,8 @@ const pagePerformance = {
             })
             return times
         } catch (e) {
-            throw Error(e)
+            console.error('[ZephyrMonitor Error]: Get performance information exceptions', e)
+            return {}
         }
     },
 
@@ -67,7 +69,10 @@ const pagePerformance = {
      */
     getEntries(usefulResourceType = []) {
         if (!window.performance || !window.performance.getEntries) {
-            throw Error('该浏览器不支持performance.getEntries方法')
+            console.warn(
+                '[ZephyrMonitor Warn]: This browser does not support the performance.getEntries method',
+            )
+            return {}
         }
         const entryTimesList = []
         const entryList = window.performance.getEntries()
@@ -81,17 +86,17 @@ const pagePerformance = {
                 templeObj.name = item.name
                 // 发起资源类型
                 templeObj.initiatorType = item.initiatorType
-                // http协议版本
+                // http 协议版本
                 templeObj.nextHopProtocol = item.nextHopProtocol
                 // 重定向时间
                 templeObj.redirectTime = (item.redirectEnd - item.redirectStart).toFixed(2)
-                // dns查询耗时
+                // dns 查询耗时
                 templeObj.dnsTime = (item.domainLookupEnd - item.domainLookupStart).toFixed(2)
-                // tcp链接耗时
+                // tcp 连接耗时
                 templeObj.tcpTime = (item.connectEnd - item.connectStart).toFixed(2)
                 // 发送请求到接收到响应第一个字符
                 templeObj.ttfbTime = (item.responseStart - item.requestStart).toFixed(2)
-                // 接收响应的时间（从第一个字符到最后一个字符）
+                // 接收响应的时间
                 templeObj.responseTime = (item.responseEnd - item.responseStart).toFixed(2)
                 // 请求 + 响应总时间
                 templeObj.reqTotalTime = (item.responseEnd - item.requestStart).toFixed(2)

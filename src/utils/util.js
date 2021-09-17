@@ -44,7 +44,7 @@ const ValidateParameters = (data = {}, validateRules = []) => {
         const rule = validateRules[i]
         // 先判断是否为必须参数
         if (rule.require && !data[rule.filed]) {
-            console.error(`ZephyrMonitor Error: Missing necessary parameters "${rule.filed}"`)
+            console.error(`[ZephyrMonitor Error]: Missing necessary parameters "${rule.filed}"`)
             return false
         }
 
@@ -53,7 +53,7 @@ const ValidateParameters = (data = {}, validateRules = []) => {
             const type = judgeType(data[rule.filed])
             if (type !== rule.type) {
                 console.error(
-                    `ZephyrMonitor Error: Type check failed for parameter "${rule.filed}". Expected ${rule.type}, got ${type}`,
+                    `[ZephyrMonitor Error]: Type check failed for parameter "${rule.filed}". Expected ${rule.type}, got ${type}`,
                 )
                 return false
             }

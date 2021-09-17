@@ -19,10 +19,13 @@ class API {
      */
     report(data) {
         if (!this._checkUrl(this.url)) {
-            console.log('上报信息url地址格式不正确,url=', this.url)
+            console.error(
+                '[ZephyrMonitor Error]: The url address is not in the correct format,url=',
+                this.url,
+            )
             return
         }
-        console.log(`上报地址：${this.url}`)
+        console.info(`[ZephyrMonitor Info]: Url for reporting - ${this.url}`)
         const { useImg, useFetch, useBeacon } = this.reportMethod
         if (useImg) {
             this._sendInfoByImg(data) // 图片上报数据
@@ -50,7 +53,7 @@ class API {
             xhr.setRequestHeader('Content-Type', 'application/json')
             xhr.send(dataStr)
         } catch (error) {
-            console.log('XHR请求异常', error)
+            console.error('[ZephyrMonitor Error]: XHR request exception', error)
         }
     }
 
@@ -75,10 +78,12 @@ class API {
                 })
                 return
             }
-            console.warn('当前浏览器不支持fetch，采用默认方式XHR上报数据')
+            console.warn(
+                '[ZephyrMonitor Warn]: The current browser does not support fetch, the default method of XHR reporting data is used',
+            )
             this._sendInfoByXHR(data)
         } catch (error) {
-            console.log('fetch请求异常', error)
+            console.error('[ZephyrMonitor Error]: XHR request exception', error)
         }
     }
 
@@ -89,15 +94,11 @@ class API {
      * @return void
      */
     _sendInfoByImg(data) {
-        if (!this._checkUrl(this.url)) {
-            console.log('上报信息url地址格式不正确,url=', this.url)
-            return
-        }
         try {
             const img = new Image()
             img.src = `${this.url}?v=${new Date().getTime()}&${this._formatParams(data)}`
         } catch (error) {
-            console.log('img请求异常', error)
+            console.error('[ZephyrMonitor Error]: IMG request exception', error)
         }
     }
 

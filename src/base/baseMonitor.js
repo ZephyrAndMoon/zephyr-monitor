@@ -16,11 +16,11 @@ class BaseMonitor {
     constructor({ pageId, reportUrl, extendsInfo, reportMethod }) {
         this.pageId = pageId || ''
         this.category = ErrorCategoryEnum.UNKNOWN_ERROR // 错误类型
-        this.level = ErrorLevelEnum.INFO // 错误等级
+        this.logType = ErrorLevelEnum.INFO // 信息类别
         this.msg = {} // 错误信息
         this.url = '' // 错误信息地址
         this.stack = [] // 错误堆栈
-        this.otherErrorInfo = {} // 其他错误内容
+        this.otherInfo = {} // 其他错误内容
 
         this.reportUrl = reportUrl // 上报错误地址
         this.extendsInfo = extendsInfo // 扩展信息
@@ -50,21 +50,20 @@ class BaseMonitor {
             if (!this.msg) {
                 return
             }
-            // 过滤掉错误上报地址
+            // 过滤错误上报地址
             if (
                 this.reportUrl &&
                 this.url &&
                 this.url.toLowerCase().indexOf(this.reportUrl.toLowerCase()) >= 0
             ) {
-                console.log('统计错误接口异常', this.msg)
+                console.error('[ZephyrMonitor Error]: Error logging exception', this.msg)
                 return
             }
             const errorInfo = this._handleErrorInfo()
-            console.log(`\nIt's ${this.category}`, errorInfo)
             // 记录日志
             taskQueue.add(this.reportUrl, this.reportMethod, errorInfo)
         } catch (error) {
-            console.log(error)
+            console.error('[ZephyrMonitor Error]: Error logging exception', this.msg)
         }
     }
 
@@ -77,20 +76,20 @@ class BaseMonitor {
         const logInfo = {
             url: this.url,
             errorInfo: this.msg,
-            otherErrorInfo: this.otherErrorInfo,
+            otherInfo: this.otherInfo,
             stack: this.stack,
         }
         const deviceInfo = this._getDeviceInfo()
         const recordInfo = {
             pageId: this.pageId,
             time: new Date().format('yyyy-MM-dd HH:mm:ss'),
-            logType: this.level,
+            logType: this.logType,
             category: this.category,
             logInfo: JSON.stringify(logInfo),
             deviceInfo: JSON.stringify(deviceInfo),
             extendsInfo: JSON.stringify(this.extendsInfo),
         }
-        console.log('错误信息: ', recordInfo)
+        console.info('[ZephyrMonitor Info]: Error info', recordInfo)
         return recordInfo
     }
 
@@ -104,7 +103,10 @@ class BaseMonitor {
             const deviceInfo = DeviceInfo.getDeviceInfo()
             return deviceInfo
         } catch (error) {
-            console.log(error)
+            console.error(
+                '[ZephyrMonitor Error]: Exceptions to obtaining device information',
+                this.msg,
+            )
             return ''
         }
     }
