@@ -69,18 +69,21 @@ class MonitorPerformance extends BaseMonitor {
      */
     _getResourceType(typeList = {}) {
         const hasOptions = Object.keys(typeList).length > 0
+        const type = new Set(['script', 'css', 'fetch', 'xmlhttprequest', 'link', 'img'])
+
         if (!hasOptions) {
-            return ['script', 'css', 'fetch', 'xmlhttprequest', 'link', 'img']
+            return Array.from(type)
         }
+
         const { useRScript, useRCSS, useRFetch, useRXHR, useRLink, useRImg } = typeList
-        const usefulResourceType = [] // 'navigation'
-        if (useRScript) usefulResourceType.push('script')
-        if (useRCSS) usefulResourceType.push('css')
-        if (useRFetch) usefulResourceType.push('fetch')
-        if (useRXHR) usefulResourceType.push('xmlhttprequest')
-        if (useRLink) usefulResourceType.push('link')
-        if (useRImg) usefulResourceType.push('img')
-        return usefulResourceType
+        if (useRCSS) type.delete('css')
+        if (useRImg) type.delete('img')
+        if (useRLink) type.delete('link')
+        if (useRFetch) type.delete('fetch')
+        if (useRScript) type.delete('script')
+        if (useRXHR) type.delete('xmlhttprequest')
+
+        return Array.from(type)
     }
 
     /**

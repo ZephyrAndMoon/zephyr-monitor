@@ -19,37 +19,37 @@ const pagePerformance = {
             // tcp连接耗时
             times.tcpTime = (timing.connectEnd - timing.connectStart).toFixed(2)
 
-            // DNS 查询时间
+            // DNS 查询耗时
             times.dnsTime = (timing.domainLookupEnd - timing.domainLookupStart).toFixed(2)
 
-            // DNS 缓存时间
+            // DNS 查询缓存耗时
             times.dnsCacheTime = (timing.domainLookupStart - timing.fetchStart).toFixed(2)
 
-            // 重定向的时间
+            // 重定向耗时
             times.redirectTime = (timing.redirectEnd - timing.redirectStart).toFixed(2)
 
-            // 数据传输时间
+            // 数据传输耗时
             times.resTime = (timing.responseEnd - timing.responseStart).toFixed(2)
 
-            // First Byte 时间
+            // First Byte 耗时
             times.ttfbTime = (timing.responseStart - timing.fetchStart).toFixed(2)
 
-            // 白屏时间
+            // 白屏时长
             times.blankTime = (timing.responseStart - timing.fetchStart).toFixed(2)
 
             // 解析 dom 树耗时
             times.analysisTime = (timing.domComplete - timing.domInteractive).toFixed(2)
 
-            // domReadyTime
+            // dom节点解析完成耗时
             times.domReadyTime = (timing.domContentLoadedEventEnd - timing.fetchStart).toFixed(2)
 
-            // 首次可交互时间
+            // 首次可交互耗时
             times.firstInteractTime = (timing.domInteractive - timing.fetchStart).toFixed(2)
 
-            // 页面加载完成的时间
-            times.loadPageTime = (timing.loadEventStart - timing.fetchStart).toFixed(2)
+            // 页面加载完成耗时
+            times.pageLoadedTime = (timing.loadEventStart - timing.fetchStart).toFixed(2)
 
-            // 卸载页面的时间
+            // 卸载页面耗时
             times.unloadTime = (timing.unloadEventEnd - timing.unloadEventStart).toFixed(2)
 
             Object.keys(times).forEach((time) => {
@@ -88,17 +88,17 @@ const pagePerformance = {
                 templeObj.initiatorType = item.initiatorType
                 // http 协议版本
                 templeObj.nextHopProtocol = item.nextHopProtocol
-                // 重定向时间
+                // 重定向耗时
                 templeObj.redirectTime = (item.redirectEnd - item.redirectStart).toFixed(2)
                 // dns 查询耗时
                 templeObj.dnsTime = (item.domainLookupEnd - item.domainLookupStart).toFixed(2)
                 // tcp 连接耗时
                 templeObj.tcpTime = (item.connectEnd - item.connectStart).toFixed(2)
-                // 发送请求到接收到响应第一个字符
+                // first byte 耗时
                 templeObj.ttfbTime = (item.responseStart - item.requestStart).toFixed(2)
-                // 接收响应的时间
+                // 响应完成耗时
                 templeObj.responseTime = (item.responseEnd - item.responseStart).toFixed(2)
-                // 请求 + 响应总时间
+                // 请求响应耗时
                 templeObj.reqTotalTime = (item.responseEnd - item.requestStart).toFixed(2)
                 entryTimesList.push(templeObj)
             }
