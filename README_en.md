@@ -165,13 +165,13 @@ ZephyrMonitor.initPerformance({
 
 - **usePerf**
 
-  `Boolean`（require）
+  `Boolean`
 
   Enable page performance monitoring, default `true`
 
 - **useResource**
 
-  `Boolean`（require）
+  `Boolean`
 
   Enable resource load monitoring, default `true`
 
