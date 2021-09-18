@@ -97,19 +97,19 @@ ZephyrMonitor.initPerformance({
 
 - **pageId**
 
-  type：`String`（require）
+  `String（require）`
 
   Page ID
 
 - **url**
 
-  type：`String`（require）
+  `String（require）`
 
   Report url
 
 - **reportMethod**
 
-  type：`Object`
+  `Object`
 
   Reporting method, default XHR upload （If more than one sub-parameter is passed in, the default order is Img - Fetch - Beacon - XHR）
 
@@ -119,7 +119,7 @@ ZephyrMonitor.initPerformance({
 
 - **error**
 
-  type：`Object`
+  `Object`
 
   Error types to catch, default JavaScript type、 resource type、 Promise type errors
 
@@ -131,13 +131,13 @@ ZephyrMonitor.initPerformance({
 
 - **vue**
 
-  type：`Vue`
+  `Vue`
 
   Vue instances to be passed in when enabling Vue type error catching
 
 - **extendsInfo**
 
-  type：`String`
+  `String`
 
   Customised extension information
 
@@ -147,37 +147,37 @@ ZephyrMonitor.initPerformance({
 
 - **pageId**
 
-  type：`String`（require）
+  `String（require）`
 
   Page ID
 
 - **url**
 
-  type：`String`（require）
+  `String（require）`
 
   Report url
 
 - **useCrossorigin**
 
-  type：`Boolean`
+  `Boolean`
 
   Positioning of error messages for error reporting in cross-domain JavaScript files
 
 - **usePerf**
 
-  type：`Boolean`（require）
+  `Boolean`（require）
 
   Enable page performance monitoring, default `true`
 
 - **useResource**
 
-  type：`Boolean`（require）
+  `Boolean`（require）
 
   Enable resource load monitoring, default `true`
 
 - **usefulResourceType**
 
-  type：`Object`
+  `Object`
 
   The monitored resource type, default `script/css/fetch/xmlhttprequest/link/img`
 
@@ -190,19 +190,19 @@ ZephyrMonitor.initPerformance({
 
 - **reportMethod**
 
-  type：`Object`
+  `Object`
 
   Same as in `FrontEndMonitor.initError`
 
 - **useNetworkSpeed**
 
-  type：`Boolean`
+  `Boolean`
 
   Enable timed speed information reporting, default `false`, interval is `60s`
 
 - **timeInterval**
 
-  type：`Number`
+  `Number`
 
   Interval for reporting network speed information
 

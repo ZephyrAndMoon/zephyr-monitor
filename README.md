@@ -96,19 +96,19 @@ ZephyrMonitor.initPerformance({
 
 - **pageId**
 
-  类型：`String`（必须）
+  `String（必须）`
 
   页面标识
 
 - **url**
 
-  类型：`String`（必须）
+  `String（必须）`
 
   错误上报地址
 
 - **reportMethod**
 
-  类型：`Object`
+  `Object`
 
   信息上报方式，默认使用 XHR 上传 （如果传入子参数多于一个的话，默认顺序 Img - Fetch - Beacon - XHR）
 
@@ -118,7 +118,7 @@ ZephyrMonitor.initPerformance({
 
 - **error**
 
-  类型：`Object`
+  `Object`
 
   捕获的错误类型对象，默认捕获  JavaScript 类型、资源类型、Promise 类型错误
 
@@ -130,13 +130,13 @@ ZephyrMonitor.initPerformance({
 
 - **vue**
 
-  类型：`Vue`
+  `Vue`
 
   开启 Vue 类型错误捕获时需要传入的 Vue 实例
 
 - **extendsInfo**
 
-  类型：`String`
+  `String`
 
   额外需要传入的自定义扩展信息
 
@@ -146,37 +146,37 @@ ZephyrMonitor.initPerformance({
 
 - **pageId**
 
-  类型：`String`（必须）
+  `String（必须）`
 
   页面标识
 
 - **url**
 
-  类型：`String`（必须）
+  `String（必须）`
 
   错误上报地址
 
 - **useCrossorigin**
 
-  类型：`Boolean`
+  `Boolean`
 
   是否开启远程 JavaScript 文件中报错的错误信息定位
 
 - **usePerf**
 
-  类型：`Boolean`（必须）
+  `Boolean`
 
   是否启用页面性能监控，默认 `true`
 
 - **useResource**
 
-  类型：`Boolean`（必须）
+  `Boolean`
 
   是否启用资源加载监控，默认 `true`
 
 - **usefulResourceType**
 
-  类型：`Object`
+  `Object`
 
   监控加载的资源类型，默认为 `script/css/fetch/xmlhttprequest/link/img`
 
@@ -189,19 +189,19 @@ ZephyrMonitor.initPerformance({
 
 - **reportMethod**
 
-  类型：`Object`
+  `Object`
 
   与 `FrontEndMonitor.initError` 中此参数相同
 
 - **useNetworkSpeed**
 
-  类型：`Boolean`
+  `Boolean`
 
   是否开启定时网速信息上报，默认 `false`，间隔时间默认为 60s
 
 - **timeInterval**
 
-  类型：`Number`
+  `Number`
 
   定时上报网速信息的间隔时长
 
