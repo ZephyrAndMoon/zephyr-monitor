@@ -1,10 +1,10 @@
 <h1 align="center">欢迎使用 ZephyrMonitor 👋🏼</h1> 
 
-<p align="center">
+<h4 align="center">
 
 简体中文 &#124; [English](https://github.com/ZephyrAndMoon/sourcemap-upload-webpack-plugin/blob/master/README.md)
 
-</p>
+</h4>
 
 <br/>
 
