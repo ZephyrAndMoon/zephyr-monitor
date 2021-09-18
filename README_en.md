@@ -2,7 +2,7 @@
 
 <h4 align="center">
 
-[简体中文](https://github.com/ZephyrAndMoon/zephyr-monitor/edit/master/README.md) &#124; English
+[简体中文](https://github.com/ZephyrAndMoon/zephyr-monitor/blob/master/README.md) &#124; English
 
 </h4>
 
