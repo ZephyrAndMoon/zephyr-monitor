@@ -1,8 +1,13 @@
 <h1 align="center">欢迎使用 ZephyrMonitor 👋🏼</h1> 
 
+<p align="center">
+
 简体中文 &#124; [English](https://github.com/ZephyrAndMoon/sourcemap-upload-webpack-plugin/blob/master/README.md)
 
+</p>
+
 <br/>
+
 **一款前端监控工具，包含错误监控、性能监控、设备信息收集、网络状态监测等功能。**
 
 - 对于前端线上产生的 **错误** 进行收集上报，支持跨域 **Javascript** 文件错误信息定位；

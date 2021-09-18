@@ -1,6 +1,12 @@
 <h1 align="center">Welcome to ZephyrMonitor 👋🏼</h1> 
 
+<p align="center">
+
 [简体中文](https://github.com/ZephyrAndMoon/sourcemap-upload-webpack-plugin/blob/master/README_zh.md) &#124; English
+
+</p>
+
+
 
 <br/>
 A front-end monitoring tool that includes functions such as monitoring errors, monitoring first screen performance, collecting device information and monitoring network status.
