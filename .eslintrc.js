@@ -1,11 +1,12 @@
 module.exports = {
+    root: true,
     env: {
         browser: true,
         commonjs: true,
         es2021: true,
         node: true,
     },
-    extends: ['plugin:vue/essential', 'airbnb-base', 'plugin:prettier/recommended'],
+    extends: ['airbnb-base', 'plugin:prettier/recommended'],
     parserOptions: {
         ecmaVersion: 12,
         sourceType: 'module',
