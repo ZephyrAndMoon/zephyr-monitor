@@ -102,11 +102,8 @@ class BaseMonitor {
         try {
             const deviceInfo = DeviceInfo.getDeviceInfo()
             return deviceInfo
-        } catch (error) {
-            console.error(
-                '[ZephyrMonitor Error]: Exceptions to obtaining device information',
-                this.msg,
-            )
+        } catch (e) {
+            console.error('[ZephyrMonitor Error]: Exceptions to obtaining device information', e)
             return ''
         }
     }
