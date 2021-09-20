@@ -1,4 +1,4 @@
-import UA from 'ua-device'
+import UAParser from 'ua-parser-js'
 
 const DeviceInfo = (() => {
     const root = typeof self !== 'undefined' ? self : this
@@ -72,9 +72,7 @@ const DeviceInfo = (() => {
             device: ['Mobile', 'Tablet', 'iPad'],
         },
     }
-    // 引入ua-device依赖
-    const deviceType = VariableLibrary.navigator.userAgent || {} // 获取userAgent信息
-    const deviceUaInfo = new UA(deviceType)
+    const deviceUaInfo = new UAParser(VariableLibrary.navigator.userAgent || {}) // 解析 UserAgent 信息
     // 方法库
     const MethodLibrary = (() => {
         return {
@@ -550,25 +548,15 @@ const DeviceInfo = (() => {
                 const _params = params || { domain: '' }
                 // 建立匹配库，将部分信息绑定到 this 上
                 MethodLibrary.matchInfoMap()
+
+                const deviceType = MethodLibrary.getDeviceType()
+
                 const info = {
                     deviceType: MethodLibrary.getDeviceType(), // 设备类型
-                    deviceInfo: deviceUaInfo.device, // 设备信息
-                    browserInfo: {
-                        name: deviceUaInfo.browser.name,
-                        version:
-                            deviceUaInfo.browser.version && deviceUaInfo.browser.version.original,
-                    }, // 浏览器信息
-                    engineInfo: {
-                        name: deviceUaInfo.engine.name,
-                        version:
-                            deviceUaInfo.engine.version && deviceUaInfo.engine.version.original,
-                    }, // 引擎信息
-                    // OS: MethodLibrary.getOS(), // 操作系统
-                    // OSVersion: MethodLibrary.getOSVersion(), // 操作系统版本
-                    OSInfo: {
-                        name: deviceUaInfo.os.name,
-                        version: deviceUaInfo.os.version && deviceUaInfo.os.version.original,
-                    }, // 操作系统信息
+                    deviceInfo: deviceType === 'PC' ? null : deviceUaInfo.getDevice(),
+                    browserInfo: deviceUaInfo.getBrowser(), // 浏览器信息
+                    engineInfo: deviceUaInfo.getEngine(), // 引擎信息
+                    OS: deviceUaInfo.getOS(), // 操作系统
                     screenWidth: _window.screen.width, // 屏幕宽
                     screenHeight: _window.screen.height, // 屏幕高
                     netWork: MethodLibrary.getNetwork(), // 联网类型
