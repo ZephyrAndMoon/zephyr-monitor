@@ -33,7 +33,7 @@ A front-end monitoring tool that includes functions such as monitoring errors, m
 
 <br />
 
-## ⚙️ Install or Build
+## ⚙️ Install Or Build
 
 ### NPM
 
@@ -91,7 +91,7 @@ ZephyrMonitor.initPerformance({
 
 <br />
 
-## 💡 Method parameters
+## 💡 Method Parameters
 
 ### ZephyrMonitor.initError
 
@@ -208,9 +208,9 @@ ZephyrMonitor.initPerformance({
 
 <br />
 
-## 🔎 上报信息参数
+## 🔎 Parameters Of The Reported Info
 
-### 错误信息对象
+### Error
 
 ```javascript
 {
@@ -229,7 +229,7 @@ ZephyrMonitor.initPerformance({
 }
 ```
 
-### 页面性能信息对象
+### Performance
 
 ```javascript
 {
@@ -269,7 +269,7 @@ ZephyrMonitor.initPerformance({
 ```
 
 
-### 网速信息对象
+### NetworkSpeed
 
 ```javascript
 {
@@ -283,7 +283,7 @@ ZephyrMonitor.initPerformance({
 }
 ```
 
-### 设备信息对象
+### Device
 
 ```javascript
 {
@@ -296,11 +296,10 @@ ZephyrMonitor.initPerformance({
         name: String,          // Engine name
         version: String,       // Engine version
     },
-    deviceInfo: {
-        identified: Boolean,   // Identification status of device information
-        manufacturer: String,  // Device manufacturers
-        model: String,         // model
-        type: String,          // Type of device
+    deviceInfo: {              // This information is null when deviceType is PC
+        vendor: Boolean,       // device brands
+        model: String,         // device model
+        type: String,          // device type
     },
     OSInfo:{
         name: String,          // OS name

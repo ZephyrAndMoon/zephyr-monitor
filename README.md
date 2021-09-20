@@ -296,11 +296,10 @@ ZephyrMonitor.initPerformance({
         name: String,          // 内核名称
         version: String,       // 内核版本
     },
-    deviceInfo: {
-        identified: Boolean,   // 设备信息识别状态
-        manufacturer: String,  // 设备制造产商
-        model: String,         // 设备模型
-        type: String,          // 设备类别
+    deviceInfo: {              // deviceType 为 PC 时该信息为 null
+        vendor: String,       // 设备品牌
+        model: String,         // 设备型号
+        type: String,          // 设备类型
     },
     OSInfo:{
         name: String,          // 操作系统名称
