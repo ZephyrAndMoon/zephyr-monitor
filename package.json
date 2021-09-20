@@ -37,8 +37,6 @@
     "devDependencies": {
         "@commitlint/cli": "^13.1.0",
         "@commitlint/config-conventional": "^13.1.0",
-        "@typescript-eslint/eslint-plugin": "^4.29.3",
-        "@typescript-eslint/parser": "^4.29.3",
         "babel-core": "^6.26.0",
         "babel-loader": "^7.1.2",
         "babel-plugin-component": "^1.1.1",
@@ -62,9 +60,6 @@
         "prettier": "^2.3.2",
         "webpack": "^5.52.0",
         "webpack-cli": "^4.8.0",
-        "webpack-dev-server": "^4.1.0",
-        "webpack-hot-middleware": "^2.25.0",
-        "axios": "^0.21.1",
-        "ua-device": "^0.1.10"
+        "ua-parser-js": "^0.7.28"
     }
 }
