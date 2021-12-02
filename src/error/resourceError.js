@@ -1,4 +1,5 @@
 import BaseMonitor from '../base/baseMonitor'
+import { logger } from '../utils/util'
 import { ErrorCategoryEnum, ErrorLevelEnum } from '../base/baseConfig'
 /**
  * 资源加载错误
@@ -31,10 +32,7 @@ class ResourceError extends BaseMonitor {
                     this.msg = `加载 ${target.tagName} 资源错误`
                     this.recordError()
                 } catch (e) {
-                    console.error(
-                        '[ZephyrMonitor Error]: Catching "resource_error" error exceptions',
-                        e,
-                    )
+                    logger('error', 'Catching "resource_error" error exceptions', e)
                 }
                 event.preventDefault()
             },

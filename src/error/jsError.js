@@ -1,3 +1,4 @@
+import { logger } from '../utils/util'
 import BaseMonitor from '../base/baseMonitor'
 import { ErrorCategoryEnum, ErrorLevelEnum } from '../base/baseConfig'
 /**
@@ -20,7 +21,7 @@ class JSError extends BaseMonitor {
                 this.stack = error && error.stack
                 this.recordError()
             } catch (e) {
-                console.error('[ZephyrMonitor Error]: Catching "js_error" error exceptions', e)
+                logger('error', 'Catching "js_error" error exceptions', e)
             }
             return true
         }

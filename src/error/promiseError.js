@@ -1,5 +1,5 @@
-import { getErrorUrl } from '../utils/util'
 import BaseMonitor from '../base/baseMonitor'
+import { getErrorUrl, logger } from '../utils/util'
 import { ErrorCategoryEnum, ErrorLevelEnum } from '../base/baseConfig'
 /**
  * 捕获未处理的Promise异常
@@ -27,10 +27,7 @@ class PromiseError extends BaseMonitor {
                     this.stack = stack
                     this.recordError()
                 } catch (e) {
-                    console.error(
-                        '[ZephyrMonitor Error]: Catching "promise_error" error exceptions',
-                        e,
-                    )
+                    logger('error', 'Catching "promise_error" error exceptions', e)
                 }
                 event.preventDefault()
             },

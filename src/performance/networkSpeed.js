@@ -1,4 +1,5 @@
 import BaseMonitor from '../base/baseMonitor'
+import { logger } from '../utils/util'
 import { ErrorLevelEnum, ErrorCategoryEnum } from '../base/baseConfig'
 
 import API from '../base/api'
@@ -82,14 +83,14 @@ class MonitorNetworkSpeed extends BaseMonitor {
                         networkSpeed: speed,
                         deviceInfo: JSON.stringify(this._getDeviceInfo()),
                     }
-                    console.info('[ZephyrMonitor Info]: NetSpeed info', data)
+                    logger('info', 'NetSpeed info', data)
                     new API(this.url, this.reportMethod).report(data)
                 }
             }
             xhr.open('GET', `${this.filePath}?rand=${Math.random()}`, true)
             xhr.send()
         } catch (e) {
-            console.error('[ZephyrMonitor Error]: Internet speed test failed', e)
+            logger('error', 'Internet speed test failed', e)
         }
     }
 

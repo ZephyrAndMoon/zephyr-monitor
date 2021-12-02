@@ -1,3 +1,4 @@
+import { logger } from '../utils/util'
 import BaseMonitor from '../base/baseMonitor'
 import { ErrorCategoryEnum, ErrorLevelEnum } from '../base/baseConfig'
 /**
@@ -68,7 +69,7 @@ class ConsoleError extends BaseMonitor {
             this.category = category
             this.recordError()
         } catch (error) {
-            console.error('[ZephyrMonitor Error]: Console handling error exception', type, error)
+            logger('error', 'Console handling error exception', type, error)
         }
     }
 }

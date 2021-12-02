@@ -1,5 +1,6 @@
 import DeviceInfo from '../device'
 import TaskQueue from './taskQueue'
+import { logger } from '../utils/util'
 import { ErrorLevelEnum, ErrorCategoryEnum } from './baseConfig'
 
 const taskQueue = new TaskQueue()
@@ -15,16 +16,16 @@ class BaseMonitor {
      */
     constructor({ pageId, reportUrl, extendsInfo, reportMethod }) {
         this.pageId = pageId || ''
+        this.reportUrl = reportUrl // 上报错误地址
+        this.extendsInfo = extendsInfo // 扩展信息
+        this.reportMethod = reportMethod // 上报方式
+
         this.category = ErrorCategoryEnum.UNKNOWN_ERROR // 错误类型
         this.logType = ErrorLevelEnum.INFO // 信息类别
         this.msg = {} // 错误信息
         this.url = '' // 错误信息地址
         this.stack = [] // 错误堆栈
         this.otherInfo = {} // 其他错误内容
-
-        this.reportUrl = reportUrl // 上报错误地址
-        this.extendsInfo = extendsInfo // 扩展信息
-        this.reportMethod = reportMethod // 上报方式
     }
 
     /**
@@ -56,14 +57,14 @@ class BaseMonitor {
                 this.url &&
                 this.url.toLowerCase().indexOf(this.reportUrl.toLowerCase()) >= 0
             ) {
-                console.error('[ZephyrMonitor Error]: Error logging exception', this.msg)
+                logger('error', 'Error logging exception', this.msg)
                 return
             }
             const errorInfo = this._handleErrorInfo()
             // 记录日志
             taskQueue.add(this.reportUrl, this.reportMethod, errorInfo)
         } catch (error) {
-            console.error('[ZephyrMonitor Error]: Error logging exception', this.msg)
+            logger('error', 'Error logging exception', this.msg)
         }
     }
 
@@ -89,7 +90,7 @@ class BaseMonitor {
             deviceInfo: JSON.stringify(deviceInfo),
             extendsInfo: JSON.stringify(this.extendsInfo),
         }
-        console.info('[ZephyrMonitor Info]: Error info', recordInfo)
+        logger('info', 'Error info', recordInfo)
         return recordInfo
     }
 
@@ -103,7 +104,7 @@ class BaseMonitor {
             const deviceInfo = DeviceInfo.getDeviceInfo()
             return deviceInfo
         } catch (e) {
-            console.error('[ZephyrMonitor Error]: Exceptions to obtaining device information', e)
+            logger('error', 'Exceptions to obtaining device information', e)
             return ''
         }
     }

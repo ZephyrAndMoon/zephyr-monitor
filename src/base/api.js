@@ -1,3 +1,5 @@
+import { logger } from '../utils/util'
+
 /**
  * 数据持久化
  */
@@ -19,10 +21,7 @@ class API {
      */
     report(data) {
         if (!this._checkUrl(this.url)) {
-            console.error(
-                '[ZephyrMonitor Error]: The url address is not in the correct format',
-                this.url,
-            )
+            logger('error', 'The url address is not in the correct format', this.url)
             return
         }
         const { useImg, useFetch, useBeacon } = this.reportMethod
@@ -52,7 +51,7 @@ class API {
             xhr.setRequestHeader('Content-Type', 'application/json')
             xhr.send(dataStr)
         } catch (error) {
-            console.error('[ZephyrMonitor Error]: XHR request exception', error)
+            logger('error', 'XHR request exception', error)
         }
     }
 
@@ -77,12 +76,13 @@ class API {
                 })
                 return
             }
-            console.warn(
-                '[ZephyrMonitor Warn]: The current browser does not support fetch, the default method of XHR reporting data is used',
+            logger(
+                'warn',
+                'The current browser does not support fetch, the default method of XHR reporting data is used',
             )
             this._sendInfoByXHR(data)
         } catch (error) {
-            console.error('[ZephyrMonitor Error]: XHR request exception', error)
+            logger('error', 'XHR request exception', error)
         }
     }
 
@@ -97,7 +97,7 @@ class API {
             const img = new Image()
             img.src = `${this.url}?v=${new Date().getTime()}&${this._formatParams(data)}`
         } catch (error) {
-            console.error('[ZephyrMonitor Error]: IMG request exception', error)
+            logger('error', 'IMG request exception', error)
         }
     }
 

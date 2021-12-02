@@ -1,6 +1,6 @@
-import { formatComponentInfo, getErrorUrl } from '../utils/util'
 import BaseMonitor from '../base/baseMonitor'
 import { ErrorCategoryEnum, ErrorLevelEnum } from '../base/baseConfig'
+import { formatComponentInfo, getErrorUrl, logger } from '../utils/util'
 
 /**
  * vue错误
@@ -32,7 +32,7 @@ class VueError extends BaseMonitor {
                 this.stack = stack
                 this.recordError()
             } catch (e) {
-                console.error('[ZephyrMonitor Error]: Catching "vue_error" error exceptions', e)
+                logger('error', 'Catching "vue_error" error exceptions', e)
             }
         }
     }

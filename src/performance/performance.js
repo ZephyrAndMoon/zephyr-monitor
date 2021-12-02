@@ -1,3 +1,4 @@
+import { logger } from '../utils/util'
 /**
  * 页面监控
  */
@@ -10,7 +11,7 @@ const pagePerformance = {
     getTiming() {
         try {
             if (!window.performance || !window.performance.getEntriesByType) {
-                console.warn('[ZephyrMonitor Warn]: Browser does not support performance')
+                logger('warn', 'Browser does not support performance')
                 return {}
             }
             const timing = window.performance.getEntriesByType('navigation')[0]
@@ -57,7 +58,7 @@ const pagePerformance = {
             })
             return times
         } catch (e) {
-            console.error('[ZephyrMonitor Error]: Get performance information exceptions', e)
+            logger('error', 'Get performance information exceptions', e)
             return {}
         }
     },
@@ -69,9 +70,7 @@ const pagePerformance = {
      */
     getEntries(usefulResourceType = []) {
         if (!window.performance || !window.performance.getEntries) {
-            console.warn(
-                '[ZephyrMonitor Warn]: This browser does not support the performance.getEntries method',
-            )
+            logger('warn', 'This browser does not support the performance.getEntries method')
             return {}
         }
         const entryTimesList = []

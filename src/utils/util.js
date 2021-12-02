@@ -76,4 +76,30 @@ const useCrossorigin = () => {
     document.querySelectorAll('script').forEach((dom) => dom.setAttribute('crossorigin', true))
 }
 
-export { judgeType, formatComponentInfo, getErrorUrl, validateParameters, useCrossorigin }
+/**
+ * 打印信息
+ * @param {string} type 信息类型
+ * @param {string} info 信息内容
+ * @return {void}
+ */
+const logger = (type, ...info) => {
+    let prefix = ''
+    switch (type) {
+        case 'info':
+            prefix = '[ZephyrMonitor Info]'
+            break
+
+        case 'error':
+            prefix = '[ZephyrMonitor Error]'
+            break
+        case 'warn':
+            prefix = '[ZephyrMonitor Warning]'
+            break
+        default:
+            prefix = '[ZephyrMonitor Info]'
+            break
+    }
+    console[type](prefix, ...info)
+}
+
+export { judgeType, formatComponentInfo, getErrorUrl, validateParameters, useCrossorigin, logger }
