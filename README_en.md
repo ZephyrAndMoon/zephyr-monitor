@@ -59,6 +59,7 @@ npm run build
 ```html
 <!-- <script> import -->
 <script src="ZephyrMonitor.min.js"></script>
+
 // ES module
 import ZephyrMonitor from "zephyr-monitor";
 
@@ -80,7 +81,6 @@ const ZM = new ZephyrMonitor({
 ZM.initError({
     url:"",       // report url
 });
-
 
 // Page performance monitoring initialization
 ZM.initPerformance({
