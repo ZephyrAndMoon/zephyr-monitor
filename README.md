@@ -70,19 +70,21 @@ const ZephyrMonitor = require("zephyr-monitor");
 
 <br />
 
-## 📖 使用
+## 📖 快速使用
 
 ```javascript
+// 初始化监控工具基础配置
+const ZM = new ZephyrMonitor({
+   pageId:""  // 页面标示
+})
+
 // 错误监控初始化代码
-ZephyrMonitor.initError({
-    pageId:"",  // 页面标示
+ZM.initError({
     url:"", // 上报地址
 });
 
-
 // 页面性能监控初始化代码
-ZephyrMonitor.initPerformance({
-    pageId:"",  // 页面标示
+ZM.initPerformance({
     url:"",  // 上报地址
     useNetworkSpeed:true, // 是否定时间隔上报网速情况 默认为 false
 });
@@ -92,13 +94,30 @@ ZephyrMonitor.initPerformance({
 
 ## 💡 方法参数
 
-### ZephyrMonitor.initError
+### new ZephyrMonitor
 
 - **pageId**
 
   `String（必须）`
 
   页面标识
+
+- **useLogger**
+
+  `Boolean`
+
+  - 是否开启控制台日志输出；
+  - 默认开启，需要关闭设置成 `false` 
+
+- **useCrossorigin**
+
+  `Boolean`
+
+  是否开启远程 JavaScript 文件中报错的错误信息定位
+
+
+
+### new ZephyrMonitor().initError
 
 - **url**
 
@@ -142,25 +161,13 @@ ZephyrMonitor.initPerformance({
 
 
 
-### ZephyrMonitor.initPerformance
-
-- **pageId**
-
-  `String（必须）`
-
-  页面标识
+### new ZephyrMonitor().initPerformance
 
 - **url**
 
   `String（必须）`
 
   错误上报地址
-
-- **useCrossorigin**
-
-  `Boolean`
-
-  是否开启远程 JavaScript 文件中报错的错误信息定位
 
 - **usePerf**
 
@@ -218,7 +225,7 @@ ZephyrMonitor.initPerformance({
     time: String,          // 报错时间
     category: String,      // 错误类型
     logType: String,       // 信息类别
-    logInfo: {				    
+    logInfo: {                  
         url: String,       // 报错地址
         stack: String,     // 错误堆栈（未解析）
         errorInfo: String, // 报错信息
@@ -314,5 +321,3 @@ ZephyrMonitor.initPerformance({
     userAgent: String          // 设备 UA 信息
 }
 ```
-
-

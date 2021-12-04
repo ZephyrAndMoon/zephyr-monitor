@@ -59,9 +59,6 @@ npm run build
 ```html
 <!-- <script> import -->
 <script src="ZephyrMonitor.min.js"></script>
-```
-
-```javascript
 // ES module
 import ZephyrMonitor from "zephyr-monitor";
 
@@ -71,19 +68,22 @@ const ZephyrMonitor = require("zephyr-monitor");
 
 <br />
 
-## 📖 Usage
+## 📖 Quickly Use
 
 ```javascript
+// Initialize the basic configuration of the tool
+const ZM = new ZephyrMonitor({
+   pageId:""  // page ID
+})
+
 // Error monitoring initialization
-ZephyrMonitor.initError({
-    pageId:"",    // Page ID
+ZM.initError({
     url:"",       // report url
 });
 
 
 // Page performance monitoring initialization
-ZephyrMonitor.initPerformance({
-    pageId:"",    // Page ID
+ZM.initPerformance({
     url:"",       // report url
     useNetworkSpeed:true, // Timed interval reporting of network speed, default false
 });
@@ -93,13 +93,31 @@ ZephyrMonitor.initPerformance({
 
 ## 💡 Method Parameters
 
-### ZephyrMonitor.initError
+### new ZephyrMonitor
 
 - **pageId**
 
   `String（require）`
 
   Page ID
+
+- **useLogger**
+
+  `Boolean`
+
+  - Enable console log output
+
+  - Default on, set to `false` if you need to turn it off
+
+- **useCrossorigin**
+
+  `Boolean`
+
+  Positioning of error messages for error reporting in cross-domain JavaScript files
+
+  
+
+### new ZephyrMonitor().initError
 
 - **url**
 
@@ -143,25 +161,13 @@ ZephyrMonitor.initPerformance({
 
 
 
-### ZephyrMonitor.initPerformance
-
-- **pageId**
-
-  `String（require）`
-
-  Page ID
+### new ZephyrMonitor().initPerformance
 
 - **url**
 
   `String（require）`
 
   Report url
-
-- **useCrossorigin**
-
-  `Boolean`
-
-  Positioning of error messages for error reporting in cross-domain JavaScript files
 
 - **usePerf**
 
@@ -218,7 +224,7 @@ ZephyrMonitor.initPerformance({
     time: String,          // The time when the error occurred
     category: String,      // Type of error
     logType: String,       // Type of information
-    logInfo: {				    
+    logInfo: {                  
         url: String,       // The url where the error occurred
         stack: String,     // Error stack(unanalysed)
         errorInfo: String, // Error message
@@ -313,5 +319,4 @@ ZephyrMonitor.initPerformance({
     screenWidth: Number,       // Width of device
     userAgent: String          // User Agent
 ```
-
 
