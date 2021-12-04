@@ -1,6 +1,8 @@
-import BaseMonitor from '../base/baseMonitor'
-import { getErrorUrl, logger } from '../utils/util'
+import { log } from '../base/Logger'
+import BaseMonitor from '../base/BaseMonitor'
+import { getErrorUrl } from '../utils/util'
 import { ErrorCategoryEnum, ErrorLevelEnum } from '../base/baseConfig'
+
 /**
  * 捕获未处理的Promise异常
  */
@@ -27,7 +29,7 @@ class PromiseError extends BaseMonitor {
                     this.stack = stack
                     this.recordError()
                 } catch (e) {
-                    logger('error', 'Catching "promise_error" error exceptions', e)
+                    log('error', 'Catching "promise_error" error exceptions', e)
                 }
                 event.preventDefault()
             },

@@ -1,6 +1,7 @@
+import { log } from './Logger'
+
 import DeviceInfo from '../device'
-import TaskQueue from './taskQueue'
-import { logger } from '../utils/util'
+import TaskQueue from './TaskQueue'
 import { ErrorLevelEnum, ErrorCategoryEnum } from './baseConfig'
 
 const taskQueue = new TaskQueue()
@@ -57,14 +58,14 @@ class BaseMonitor {
                 this.url &&
                 this.url.toLowerCase().indexOf(this.reportUrl.toLowerCase()) >= 0
             ) {
-                logger('error', 'Error logging exception', this.msg)
+                log('error', 'Error logging exception', this.msg)
                 return
             }
             const errorInfo = this._handleErrorInfo()
             // 记录日志
             taskQueue.add(this.reportUrl, this.reportMethod, errorInfo)
         } catch (error) {
-            logger('error', 'Error logging exception', this.msg)
+            log('error', 'Error logging exception', this.msg)
         }
     }
 
@@ -90,7 +91,7 @@ class BaseMonitor {
             deviceInfo: JSON.stringify(deviceInfo),
             extendsInfo: JSON.stringify(this.extendsInfo),
         }
-        logger('info', 'Error info', recordInfo)
+        log('info', 'Error info', recordInfo)
         return recordInfo
     }
 
@@ -104,7 +105,7 @@ class BaseMonitor {
             const deviceInfo = DeviceInfo.getDeviceInfo()
             return deviceInfo
         } catch (e) {
-            logger('error', 'Exceptions to obtaining device information', e)
+            log('error', 'Exceptions to obtaining device information', e)
             return ''
         }
     }

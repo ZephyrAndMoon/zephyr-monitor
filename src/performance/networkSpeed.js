@@ -1,8 +1,7 @@
-import BaseMonitor from '../base/baseMonitor'
-import { logger } from '../utils/util'
+import API from '../base/Api'
+import { log } from '../base/Logger'
+import BaseMonitor from '../base/BaseMonitor'
 import { ErrorLevelEnum, ErrorCategoryEnum } from '../base/baseConfig'
-
-import API from '../base/api'
 
 // 网速检测
 class MonitorNetworkSpeed extends BaseMonitor {
@@ -83,14 +82,14 @@ class MonitorNetworkSpeed extends BaseMonitor {
                         networkSpeed: speed,
                         deviceInfo: JSON.stringify(this._getDeviceInfo()),
                     }
-                    logger('info', 'NetSpeed info', data)
+                    log('info', 'NetSpeed info', data)
                     new API(this.url, this.reportMethod).report(data)
                 }
             }
             xhr.open('GET', `${this.filePath}?rand=${Math.random()}`, true)
             xhr.send()
         } catch (e) {
-            logger('error', 'Internet speed test failed', e)
+            log('error', 'Internet speed test failed', e)
         }
     }
 

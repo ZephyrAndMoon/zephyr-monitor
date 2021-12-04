@@ -1,11 +1,10 @@
+import { log } from '../base/Logger'
 /**
  * 检测数据类型
  * @param {*}
  * @return {boolean}
  */
-const judgeType = (obj) => {
-    return Object.prototype.toString.call(obj).replace(/\[object\s|\]/g, '')
-}
+const judgeType = (obj) => Object.prototype.toString.call(obj).replace(/\[object\s|\]/g, '')
 
 /**
  * 获取当前组件信息
@@ -40,29 +39,37 @@ const getErrorUrl = (stack = []) => {
 }
 
 /**
- * 获取报错位置（返回第一个错误的堆栈位置）
+ * 参数校验
  * @param {object} data 校验对象
  * @param {array} validateRules 校验规则数组
  * @return {boolean} 是否通过校验
  */
-const validateParameters = (data = {}, validateRules = []) => {
+const paramsValidator = (data = {}, validateRules = []) => {
     for (let i = 0; i < validateRules.length; i += 1) {
-        const rule = validateRules[i]
+        const { filed, require, type, validator = {} } = validateRules[i]
+
+        const { fn: validatorFn, message: validatorMessage } = validator
+
         // 先判断是否为必须参数
-        if (rule.require && !data[rule.filed]) {
-            console.error(`[ZephyrMonitor Error]: Missing necessary parameters "${rule.filed}"`)
+        if (require && !data[filed]) {
+            log('error', `Missing necessary parameters "${filed}"`)
             return false
         }
 
         // 有值的话再进行类型判断
-        if (data[rule.filed]) {
-            const type = judgeType(data[rule.filed])
-            if (type !== rule.type) {
-                console.error(
-                    `[ZephyrMonitor Error]: Type check failed for parameter "${rule.filed}". Expected ${rule.type}, got ${type}`,
+        if (data[filed]) {
+            if (judgeType(data[filed]) !== type) {
+                log(
+                    'error',
+                    `Type check failed for parameter "${filed}". Expected ${type}, but got ${type}`,
                 )
                 return false
             }
+        }
+
+        // 有校验方法时
+        if (validatorFn && !validatorFn(data[filed])) {
+            log('error', validatorMessage || 'Parameter check error')
         }
     }
     return true
@@ -77,29 +84,11 @@ const useCrossorigin = () => {
 }
 
 /**
- * 打印信息
- * @param {string} type 信息类型
- * @param {string} info 信息内容
- * @return {void}
+ * 检测是否符合 url 格式
+ * @private
+ * @param {string} url 检测的url
+ * @return {boolean} 拼接的字符串
  */
-const logger = (type, ...info) => {
-    let prefix = ''
-    switch (type) {
-        case 'info':
-            prefix = '[ZephyrMonitor Info]'
-            break
+const checkUrl = (url) => url && /^[hH][tT][tT][pP]([sS]?):\/\//.test(url)
 
-        case 'error':
-            prefix = '[ZephyrMonitor Error]'
-            break
-        case 'warn':
-            prefix = '[ZephyrMonitor Warning]'
-            break
-        default:
-            prefix = '[ZephyrMonitor Info]'
-            break
-    }
-    console[type](prefix, ...info)
-}
-
-export { judgeType, formatComponentInfo, getErrorUrl, validateParameters, useCrossorigin, logger }
+export { checkUrl, judgeType, formatComponentInfo, getErrorUrl, paramsValidator, useCrossorigin }

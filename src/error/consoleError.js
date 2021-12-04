@@ -1,6 +1,7 @@
-import { logger } from '../utils/util'
-import BaseMonitor from '../base/baseMonitor'
+import { log } from '../base/Logger'
+import BaseMonitor from '../base/BaseMonitor'
 import { ErrorCategoryEnum, ErrorLevelEnum } from '../base/baseConfig'
+
 /**
  * console.error异常
  */
@@ -69,7 +70,7 @@ class ConsoleError extends BaseMonitor {
             this.category = category
             this.recordError()
         } catch (error) {
-            logger('error', 'Console handling error exception', type, error)
+            log('error', 'Console handling error exception', type, error)
         }
     }
 }

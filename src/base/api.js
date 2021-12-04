@@ -1,4 +1,4 @@
-import { logger } from '../utils/util'
+import { log } from './Logger'
 
 /**
  * 数据持久化
@@ -20,10 +20,6 @@ class API {
      * @return void
      */
     report(data) {
-        if (!this._checkUrl(this.url)) {
-            logger('error', 'The url address is not in the correct format', this.url)
-            return
-        }
         const { useImg, useFetch, useBeacon } = this.reportMethod
         if (useImg) {
             this._sendInfoByImg(data) // 图片上报数据
@@ -47,11 +43,10 @@ class API {
         try {
             const xhr = new XMLHttpRequest()
             xhr.open('POST', this.url, true)
-            // xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
             xhr.setRequestHeader('Content-Type', 'application/json')
             xhr.send(dataStr)
         } catch (error) {
-            logger('error', 'XHR request exception', error)
+            log('error', 'XHR request exception', error)
         }
     }
 
@@ -76,13 +71,13 @@ class API {
                 })
                 return
             }
-            logger(
+            log(
                 'warn',
                 'The current browser does not support fetch, the default method of XHR reporting data is used',
             )
             this._sendInfoByXHR(data)
         } catch (error) {
-            logger('error', 'XHR request exception', error)
+            log('error', 'XHR request exception', error)
         }
     }
 
@@ -97,7 +92,7 @@ class API {
             const img = new Image()
             img.src = `${this.url}?v=${new Date().getTime()}&${this._formatParams(data)}`
         } catch (error) {
-            logger('error', 'IMG request exception', error)
+            log('error', 'IMG request exception', error)
         }
     }
 
@@ -128,18 +123,6 @@ class API {
         )
 
         return arr.join('&')
-    }
-
-    /**
-     * 检测是否符合 url 格式
-     * @private
-     * @param {string} url 检测的url
-     * @return {boolean} 拼接的字符串
-     */
-    _checkUrl(url) {
-        if (!url) return false
-        const urlRule = /^[hH][tT][tT][pP]([sS]?):\/\//
-        return urlRule.test(url)
     }
 }
 export default API

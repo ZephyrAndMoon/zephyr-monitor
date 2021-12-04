@@ -37,3 +37,8 @@ export const ErrorLevelEnum = {
     // 日志信息
     INFO: 'Info',
 }
+
+export const LogEnvironmentEnum = {
+    DEV: 'development',
+    PRO: 'production',
+}

@@ -1,7 +1,7 @@
-import API from '../base/api'
-import { logger } from '../utils/util'
+import API from '../base/Api'
+import { log } from '../base/Logger'
 import pagePerformance from './performance'
-import BaseMonitor from '../base/baseMonitor'
+import BaseMonitor from '../base/BaseMonitor'
 import { ErrorLevelEnum, ErrorCategoryEnum } from '../base/baseConfig'
 
 class MonitorPerformance extends BaseMonitor {
@@ -52,13 +52,13 @@ class MonitorPerformance extends BaseMonitor {
                 logType: ErrorLevelEnum.INFO,
                 logInfo: JSON.stringify(result),
             }
-            logger('info', 'Performance info', data)
+            log('info', 'Performance info', data)
             sessionStorage.setItem('page_performance', JSON.stringify(data))
             // 发送监控数据
             new API(this.url, this.reportMethod).report(data)
             this._clearPerformance()
         } catch (e) {
-            logger('error', 'Performance information reporting exception', e)
+            log('error', 'Performance information reporting exception', e)
         }
     }
 

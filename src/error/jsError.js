@@ -1,6 +1,7 @@
-import { logger } from '../utils/util'
-import BaseMonitor from '../base/baseMonitor'
+import { log } from '../base/Logger'
+import BaseMonitor from '../base/BaseMonitor'
 import { ErrorCategoryEnum, ErrorLevelEnum } from '../base/baseConfig'
+
 /**
  * 捕获JS错误
  */
@@ -21,7 +22,7 @@ class JSError extends BaseMonitor {
                 this.stack = error && error.stack
                 this.recordError()
             } catch (e) {
-                logger('error', 'Catching "js_error" error exceptions', e)
+                log('error', 'Catching "js_error" error exceptions', e)
             }
             return true
         }

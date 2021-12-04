@@ -1,8 +1,10 @@
 import { JsError, VueError, ConsoleError, PromiseError, ResourceError } from './error'
+import { initLogger } from './base/Logger'
 import MonitorPerformance from './performance'
 import MonitorNetworkSpeed from './performance/networkSpeed'
-import { validateParameters, useCrossorigin } from './utils/util'
+import { paramsValidator, useCrossorigin } from './utils/util'
 import { INIT_ERROR_RULES, INIT_PERFORMANCE_RULES } from './utils/validateRules'
+import { LogEnvironmentEnum } from './base/baseConfig'
 import './utils/extends'
 
 class ZephyrMonitor {
@@ -25,7 +27,10 @@ class ZephyrMonitor {
      */
     static initError(options) {
         // 校验初始化参数
-        if (!validateParameters(options, INIT_ERROR_RULES)) return
+        if (!paramsValidator(options, INIT_ERROR_RULES)) return
+
+        // eslint-disable-next-line no-new
+        initLogger(options.useLogger ? LogEnvironmentEnum.DEV : LogEnvironmentEnum.PRO)
 
         if (options.useCrossorigin) useCrossorigin()
 
@@ -66,7 +71,8 @@ class ZephyrMonitor {
      */
     static initPerformance(options) {
         // 校验初始化参数
-        if (!validateParameters(options, INIT_PERFORMANCE_RULES)) return
+        if (!paramsValidator(options, INIT_PERFORMANCE_RULES)) return
+
         // 网络状态监控
         if (options.useNetworkSpeed) {
             new MonitorNetworkSpeed(options).reportNetworkSpeed()

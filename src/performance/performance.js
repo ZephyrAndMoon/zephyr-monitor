@@ -1,4 +1,5 @@
-import { logger } from '../utils/util'
+import { log } from '../base/Logger'
+
 /**
  * 页面监控
  */
@@ -11,7 +12,7 @@ const pagePerformance = {
     getTiming() {
         try {
             if (!window.performance || !window.performance.getEntriesByType) {
-                logger('warn', 'Browser does not support performance')
+                log('warn', 'Browser does not support performance')
                 return {}
             }
             const timing = window.performance.getEntriesByType('navigation')[0]
@@ -58,7 +59,7 @@ const pagePerformance = {
             })
             return times
         } catch (e) {
-            logger('error', 'Get performance information exceptions', e)
+            log('error', 'Get performance information exceptions', e)
             return {}
         }
     },
@@ -70,7 +71,7 @@ const pagePerformance = {
      */
     getEntries(usefulResourceType = []) {
         if (!window.performance || !window.performance.getEntries) {
-            logger('warn', 'This browser does not support the performance.getEntries method')
+            log('warn', 'This browser does not support the performance.getEntries method')
             return {}
         }
         const entryTimesList = []

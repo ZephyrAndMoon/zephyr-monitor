@@ -1,6 +1,7 @@
-import BaseMonitor from '../base/baseMonitor'
+import { log } from '../base/Logger'
+import BaseMonitor from '../base/BaseMonitor'
 import { ErrorCategoryEnum, ErrorLevelEnum } from '../base/baseConfig'
-import { formatComponentInfo, getErrorUrl, logger } from '../utils/util'
+import { formatComponentInfo, getErrorUrl } from '../utils/util'
 
 /**
  * vue错误
@@ -32,7 +33,7 @@ class VueError extends BaseMonitor {
                 this.stack = stack
                 this.recordError()
             } catch (e) {
-                logger('error', 'Catching "vue_error" error exceptions', e)
+                log('error', 'Catching "vue_error" error exceptions', e)
             }
         }
     }
