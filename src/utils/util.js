@@ -79,7 +79,7 @@ const paramsValidator = (data = {}, validateRules = []) => {
  * 给 script 标签加上跨域属性
  * @return {void}
  */
-const useCrossorigin = () => {
+const setCrossorigin = () => {
     document.querySelectorAll('script').forEach((dom) => dom.setAttribute('crossorigin', true))
 }
 
@@ -91,4 +91,4 @@ const useCrossorigin = () => {
  */
 const checkUrl = (url) => url && /^[hH][tT][tT][pP]([sS]?):\/\//.test(url)
 
-export { checkUrl, judgeType, formatComponentInfo, getErrorUrl, paramsValidator, useCrossorigin }
+export { checkUrl, judgeType, formatComponentInfo, getErrorUrl, paramsValidator, setCrossorigin }

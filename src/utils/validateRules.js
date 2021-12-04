@@ -1,7 +1,6 @@
 import { checkUrl } from './util'
 
 const INIT_ERROR_RULES = [
-    { filed: 'pageId', type: 'String', require: true },
     {
         filed: 'url',
         type: 'String',
@@ -15,7 +14,6 @@ const INIT_ERROR_RULES = [
 ]
 
 const INIT_PERFORMANCE_RULES = [
-    { filed: 'pageId', type: 'String', require: true },
     { filed: 'url', type: 'String', require: true },
     { filed: 'usePerf', type: 'Boolean' },
     { filed: 'useResource', type: 'Boolean' },

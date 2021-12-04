@@ -2,7 +2,7 @@ import { JsError, VueError, ConsoleError, PromiseError, ResourceError } from './
 import { initLogger } from './base/Logger'
 import MonitorPerformance from './performance'
 import MonitorNetworkSpeed from './performance/networkSpeed'
-import { paramsValidator, useCrossorigin } from './utils/util'
+import { paramsValidator, setCrossorigin } from './utils/util'
 import { INIT_ERROR_RULES, INIT_PERFORMANCE_RULES } from './utils/validateRules'
 import { LogEnvironmentEnum } from './base/baseConfig'
 import './utils/extends'
@@ -11,12 +11,10 @@ class ZephyrMonitor {
     /**
      * @constructor
      */
-    constructor() {
-        this.jsError = true
-        this.vueError = false
-        this.promiseError = true
-        this.resourceError = true
-        this.consoleError = false
+    constructor({ pageId, useCrossorigin, useLogger }) {
+        this.pageId = pageId
+        this.useLogger = useLogger
+        this.useCrossorigin = useCrossorigin
     }
 
     /**
@@ -25,40 +23,41 @@ class ZephyrMonitor {
      * @param {*} options
      * @return void
      */
-    static initError(options) {
+    initError(options) {
         // 校验初始化参数
         if (!paramsValidator(options, INIT_ERROR_RULES)) return
 
         // eslint-disable-next-line no-new
-        initLogger(options.useLogger ? LogEnvironmentEnum.DEV : LogEnvironmentEnum.PRO)
+        initLogger(!(this.useLogger === false) ? LogEnvironmentEnum.DEV : LogEnvironmentEnum.PRO)
 
-        if (options.useCrossorigin) useCrossorigin()
+        if (this.useCrossorigin) setCrossorigin()
 
-        this.vueError = options.error.vue
-        this.consoleError = options.error.console
-        this.jsError = !(options.error.js === false)
-        this.promiseError = !(options.error.promise === false)
-        this.resourceError = !(options.error.resource === false)
+        const vueError = options.error.vue
+        const consoleError = options.error.console
+        const jsError = !(options.error.js === false)
+        const promiseError = !(options.error.promise === false)
+        const resourceError = !(options.error.resource === false)
 
-        const pageId = options.pageId || ''
+        const pageId = this.pageId || ''
         const reportUrl = options.url
         const extendsInfo = options.extendsInfo || {}
         const reportMethod = options.reportMethod || {}
+
         const param = { pageId, reportUrl, extendsInfo, reportMethod }
 
-        if (this.jsError) {
+        if (jsError) {
             new JsError(param).handleRegisterErrorCaptureEvents()
         }
-        if (this.promiseError) {
+        if (promiseError) {
             new PromiseError(param).handleRegisterErrorCaptureEvents()
         }
-        if (this.resourceError) {
+        if (resourceError) {
             new ResourceError(param).handleRegisterErrorCaptureEvents()
         }
-        if (this.consoleError) {
+        if (consoleError) {
             new ConsoleError(param).handleRegisterErrorCaptureEvents()
         }
-        if (this.vueError && options.vue) {
+        if (vueError && options.vue) {
             new VueError(param).handleRegisterErrorCaptureEvents(options.vue)
         }
     }
@@ -69,16 +68,21 @@ class ZephyrMonitor {
      * @param {*} options
      * @return void
      */
-    static initPerformance(options) {
+    initPerformance(options) {
         // 校验初始化参数
         if (!paramsValidator(options, INIT_PERFORMANCE_RULES)) return
 
+        const finalOption = {
+            ...options,
+            pageId: this.pageId,
+        }
+
         // 网络状态监控
-        if (options.useNetworkSpeed) {
-            new MonitorNetworkSpeed(options).reportNetworkSpeed()
+        if (finalOption.useNetworkSpeed) {
+            new MonitorNetworkSpeed(finalOption).reportNetworkSpeed()
         }
         // 页面性能监控
-        const recordFunc = () => new MonitorPerformance(options).record()
+        const recordFunc = () => new MonitorPerformance(finalOption).record()
         window.removeEventListener('unload', recordFunc)
         window.addEventListener('load', recordFunc)
     }
