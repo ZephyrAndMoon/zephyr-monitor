@@ -35,10 +35,18 @@ A front-end monitoring tool that includes functions such as monitoring errors, m
 
 ## ⚙️ Install Or Build
 
-### NPM
+### Install
 
 ```
 npm install zephyr-monitor
+```
+
+```
+cnpm install zephyr-monitor -S
+```
+
+```
+yarn add zephyr-monitor
 ```
 
 ### Build
@@ -46,7 +54,7 @@ npm install zephyr-monitor
 ```shell
 git clone git@github.com:ZephyrAndMoon/zephyr-monitor.git
 
-npm install / cnpm install / yarn install
+npm install / cnpm install / yarn
 
 npm run build
 # The packaged file will be output as: dist/ZephyrMonitor.min.js 
@@ -302,7 +310,7 @@ ZM.initPerformance({
         name: String,          // Engine name
         version: String,       // Engine version
     },
-    deviceInfo: {              // This information is null when deviceType is PC
+    detailInfo: {              // This information is null when deviceType is PC
         vendor: Boolean,       // device brands
         model: String,         // device model
         type: String,          // device type

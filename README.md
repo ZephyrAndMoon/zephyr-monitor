@@ -34,10 +34,18 @@
 
 ## ⚙️ 安装或构建
 
-### npm
+### 安装
 
 ```
 npm install zephyr-monitor
+```
+
+```
+cnpm install zephyr-monitor -S
+```
+
+```
+yarn add zephyr-monitor
 ```
 
 ### 构建
@@ -45,7 +53,7 @@ npm install zephyr-monitor
 ```shell
 git clone git@github.com:ZephyrAndMoon/zephyr-monitor.git
 
-npm install / cnpm install / yarn install
+npm install / cnpm install / yarn
 
 npm run build
 # 打包文件会输出为 dist/ZephyrMonitor.min.js 
@@ -303,7 +311,7 @@ ZM.initPerformance({
         name: String,          // 内核名称
         version: String,       // 内核版本
     },
-    deviceInfo: {              // deviceType 为 PC 时该信息为 null
+    detailInfo: {              // deviceType 为 PC 时该信息为 null
         vendor: String,       // 设备品牌
         model: String,         // 设备型号
         type: String,          // 设备类型
