@@ -15,6 +15,9 @@ class ZephyrMonitor {
         this.pageId = pageId
         this.useLogger = useLogger
         this.useCrossorigin = useCrossorigin
+
+        // 初始化打印日志工具
+        initLogger(!(this.useLogger === false) ? LogEnvironmentEnum.DEV : LogEnvironmentEnum.PRO)
     }
 
     /**
@@ -26,9 +29,6 @@ class ZephyrMonitor {
     initError(options) {
         // 校验初始化参数
         if (!paramsValidator(options, INIT_ERROR_RULES)) return
-
-        // eslint-disable-next-line no-new
-        initLogger(!(this.useLogger === false) ? LogEnvironmentEnum.DEV : LogEnvironmentEnum.PRO)
 
         if (this.useCrossorigin) setCrossorigin()
 

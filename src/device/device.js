@@ -122,7 +122,7 @@ const DeviceInfo = (() => {
                 // 建立匹配库，将部分信息绑定到 this 上
                 const info = {
                     deviceType: MethodLibrary.getDeviceType(), // 设备类型
-                    deviceInfo: MethodLibrary.getDeviceInfo(), // 设备信息
+                    detailInfo: MethodLibrary.getDeviceInfo(), // 设备信息
                     browserInfo: MethodLibrary.getBrowser(), // 浏览器信息
                     OS: MethodLibrary.getOS(), // 操作系统
                     screenWidth: _window.screen.width, // 屏幕宽
