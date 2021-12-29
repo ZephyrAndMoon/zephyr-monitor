@@ -37,20 +37,18 @@ class MonitorPerformance extends BaseMonitor {
             if (this.useResource) {
                 this.performanceInfo.resource = pagePerformance.getEntries(this.usefulResourceType)
             }
-            const result = {
+
+            const data = {
                 pageId: this.pageId,
                 time: new Date().format('yyyy-MM-dd HH:mm:ss'),
-                performance: this.performanceInfo.performance,
-                resource: this.performanceInfo.resource,
-                markUser: this._generateMarkUser(),
-                markUv: this._generateMarkUv(),
-                deviceInfo: this._getDeviceInfo(),
-            }
-            const data = {
-                ...this.extendsInfo,
                 category: this.category,
                 logType: ErrorLevelEnum.INFO,
-                logInfo: JSON.stringify(result),
+                markUv: this._generateMarkUv(),
+                markUser: this._generateMarkUser(),
+                deviceInfo: this._getDeviceInfo(),
+                resource: this.performanceInfo.resource,
+                performance: this.performanceInfo.performance,
+                ...this.extendsInfo,
             }
             log('info', 'Performance info', data)
             sessionStorage.setItem('page_performance', JSON.stringify(data))

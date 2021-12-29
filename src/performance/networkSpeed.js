@@ -74,13 +74,13 @@ class MonitorNetworkSpeed extends BaseMonitor {
                         1024
                     ).toFixed(2)
                     const data = {
-                        ...this.extendsInfo,
-                        time: new Date().format('yyyy-MM-dd HH:mm:ss'),
                         pageId: this.pageId,
+                        time: new Date().format('yyyy-MM-dd HH:mm:ss'),
                         category: this.category,
                         logType: ErrorLevelEnum.INFO,
                         networkSpeed: speed,
-                        deviceInfo: JSON.stringify(this._getDeviceInfo()),
+                        deviceInfo: this._getDeviceInfo(),
+                        ...this.extendsInfo,
                     }
                     log('info', 'NetSpeed info', data)
                     new API(this.url, this.reportMethod).report(data)

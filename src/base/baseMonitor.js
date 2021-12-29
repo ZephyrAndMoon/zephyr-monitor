@@ -87,9 +87,9 @@ class BaseMonitor {
             time: new Date().format('yyyy-MM-dd HH:mm:ss'),
             logType: this.logType,
             category: this.category,
-            logInfo: JSON.stringify(logInfo),
-            deviceInfo: JSON.stringify(deviceInfo),
-            extendsInfo: JSON.stringify(this.extendsInfo),
+            logInfo,
+            deviceInfo,
+            extendsInfo: this.extendsInfo,
         }
         log('info', 'Error info', recordInfo)
         return recordInfo
@@ -102,8 +102,7 @@ class BaseMonitor {
      */
     _getDeviceInfo() {
         try {
-            const deviceInfo = DeviceInfo.getDeviceInfo()
-            return deviceInfo
+            return DeviceInfo.getDeviceInfo()
         } catch (e) {
             log('error', 'Exceptions to obtaining device information', e)
             return ''

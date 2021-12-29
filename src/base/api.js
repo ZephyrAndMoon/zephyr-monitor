@@ -1,4 +1,5 @@
 import { log } from './Logger'
+import { judgeType } from '../utils/util'
 
 /**
  * 数据持久化
@@ -21,14 +22,22 @@ class API {
      */
     report(data) {
         const { useImg, useFetch, useBeacon } = this.reportMethod
+
+        const _data = {}
+        Object.entries(data).forEach(([key, value]) => {
+            _data[key] = ['Array', 'Object'].includes(judgeType(value))
+                ? JSON.stringify(value)
+                : value
+        })
+
         if (useImg) {
-            this._sendInfoByImg(data) // 图片上报数据
+            this._sendInfoByImg(_data) // 图片上报数据
         } else if (useFetch) {
-            this._sendInfoByFetch(data) // Fetch上报数据
+            this._sendInfoByFetch(_data) // Fetch上报数据
         } else if (useBeacon) {
-            this._sendInfoByNavigator(data) // Beacon上报数据
+            this._sendInfoByNavigator(_data) // Beacon上报数据
         } else {
-            this._sendInfoByXHR(data) // XHR上报数据
+            this._sendInfoByXHR(_data) // XHR上报数据
         }
     }
 
