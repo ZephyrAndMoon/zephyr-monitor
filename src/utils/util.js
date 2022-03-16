@@ -58,10 +58,11 @@ const paramsValidator = (data = {}, validateRules = []) => {
 
         // 有值的话再进行类型判断
         if (data[filed]) {
-            if (judgeType(data[filed]) !== type) {
+            const filedType = judgeType(data[filed])
+            if (filedType !== type) {
                 log(
                     'error',
-                    `Type check failed for parameter "${filed}". Expected ${type}, but got ${type}`,
+                    `Type check failed for parameter "${filed}". Expected ${type}, but got ${filedType}`,
                 )
                 return false
             }
