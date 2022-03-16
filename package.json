@@ -1,6 +1,6 @@
 {
     "name": "zephyr-monitor",
-    "version": "1.1.0",
+    "version": "1.1.4",
     "description": "一款使用方便的轻量级前端监控工具 😋",
     "files": [
         "/dist",
