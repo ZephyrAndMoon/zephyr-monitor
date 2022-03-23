@@ -157,9 +157,17 @@ ZM.initPerformance({
 
 - **vue**
 
-  `Vue`
+  `VueConstructor`
 
-  开启 Vue 类型错误捕获时需要传入的 Vue 实例
+  开启 Vue 类型错误捕获时需要传入引入的 Vue
+  ```javascript
+  import Vue from "vue";
+
+  ZephyrMonitor.initError({
+    // ...
+    vue: Vue, 
+  });
+  ```
 
 - **extendsInfo**
 

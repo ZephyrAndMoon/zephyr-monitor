@@ -157,9 +157,18 @@ ZM.initPerformance({
 
 - **vue**
 
-  `Vue`
+  `VueConstructor`
 
-  Vue instances to be passed in when enabling Vue type error catching
+  To enable Vue type error catching you need to pass in the introduced Vue
+    ```javascript
+  import Vue from "vue";
+
+  ZephyrMonitor.initError({
+    // ...
+    vue: Vue, 
+  });
+  ```
+
 
 - **extendsInfo**
 
