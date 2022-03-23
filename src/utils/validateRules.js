@@ -1,11 +1,8 @@
-import { checkUrl } from './util'
-
 const INIT_ERROR_RULES = [
     {
         filed: 'url',
         type: 'String',
         require: true,
-        validator: { fn: checkUrl, message: '不是有效的 url 路径' },
     },
     { filed: 'vue', type: 'Function' },
     { filed: 'error', type: 'Object' },
